@@ -40,7 +40,7 @@ module.exports = {
       name: 'API Key for MxToolBox',
       description: 'User API Key for MxToolBox',
       default: '',
-      type: 'text',
+      type: 'password',
       userCanEdit: false,
       adminOnly: true
     }

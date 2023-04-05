@@ -1,24 +1,20 @@
-<!-- # Polarity Zscalar Integration
+# Polarity MxToolBox Integration
 
 ![image](https://img.shields.io/badge/status-beta-green.svg)
 
-Zscalar is a customizable, secure, and drop-in solution to add authentication and authorization services to your applications. The Polarity Zscalar integration allows you to search for Zscalar users by email address.
+MxToolBox is a web-based tool that provides a suite of free and paid network diagnostic and monitoring services.The platform provides comprehensive analysis and reports to help users identify and troubleshoot problems.
 
-To learn more about Zscalar, visit the [official website](https://www.Zscalar.com/).
+To learn more about MxToolBox, visit the [official website](https://mxtoolbox.com/).
 
-## Zscalar Integration Options
+## MxToolBox Integration Options
 
-### Zscalar URL
+### MxToolBox URL
 
-Your URL to access an Zscalar API instance.
+Your URL to access an MxToolBox API instance.
 
-### Zscalar API Token
+### MxToolBox API Token
 
-Your token issued by the authorization server (Zscalar).
-
-## Default Domains to Search
-
-Enter a comma delimited list of domains that will be searched when doing email lookups in Zscalar. If left blank, all email addresses will be searched.
+The API associated with your MxToolBox account.
 
 ## Installation Instructions
 
@@ -28,4 +24,4 @@ Installation instructions for integrations are provided on the [PolarityIO GitHu
 
 Polarity is a memory-augmentation platform that improves and accelerates analyst decision making. For more information about the Polarity platform please see:
 
-https://polarity.io/ -->
+https://polarity.io/

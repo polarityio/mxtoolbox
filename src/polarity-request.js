@@ -1,17 +1,12 @@
 const fs = require('fs');
 const request = require('postman-request');
 const { getLogger } = require('./logger');
-const {
-  NetworkError,
-  ApiRequestError,
-  RetryRequestError,
-  AuthRequestError
-} = require('./errors');
+const { NetworkError, ApiRequestError, AuthRequestError } = require('./errors');
 const {
   request: { ca, cert, key, passphrase, rejectUnauthorized, proxy }
 } = require('../config/config.js');
 const { map } = require('lodash/fp');
-const { parallelLimit, retry } = require('async');
+const { parallelLimit } = require('async');
 
 const _configFieldIsValid = (field) => typeof field === 'string' && field.length > 0;
 
@@ -40,9 +35,8 @@ const HTTP_CODE_SERVER_LIMIT_502 = 502;
 const HTTP_CODE_SERVER_LIMIT_504 = 504;
 
 class PolarityRequest {
-  constructor () {
+  constructor() {
     this.requestWithDefaults = request.defaults(defaults);
-    this.requestOptions = {};
     this.headers = {};
     this.options = {};
     this.MAX_RETRIES = 0;
@@ -56,12 +50,11 @@ class PolarityRequest {
    *    res.set('Foo', ['bar', 'baz']);
    *    res.set('Accept', 'application/json');
    *    res.set({ Accept: 'text/plain', 'X-API-Key': 'tobi' });
-   *
    * @param {String|Object} field
    * @param {String|Array} val
    * @public
    */
-  setHeader (field, value) {
+  setHeader(field, value) {
     const Logger = getLogger();
     // need to add mime type to the request in a generic way
     if (arguments.length === 2) {
@@ -74,7 +67,7 @@ class PolarityRequest {
     }
   }
 
-  setOptions (options) {
+  setOptions(options) {
     this.options = options;
   }
   /**
@@ -82,7 +75,7 @@ class PolarityRequest {
    * @param requestOptions  - the request options to pass to postman-request. It will either being an array of requests or a single request.
    * @returns {{Promise<*>} || {Promise<Array<*>>}}- returns a promise that resolves to the response from the request
    */
-  async request (reqOpts) {
+  async request(reqOpts) {
     const Logger = getLogger();
 
     const requestOptionsObj = {
@@ -94,8 +87,6 @@ class PolarityRequest {
 
     const { path, ...requestOptions } = requestOptionsObj;
     Logger.trace({ requestOptions }, 'Request Options');
-
-    this.requestOptions = requestOptions;
 
     return new Promise((resolve, reject) => {
       this.requestWithDefaults(requestOptions, async (err, response) => {
@@ -110,21 +101,29 @@ class PolarityRequest {
           return resolve({ ...response, requestOptions });
         }
 
+        /*
+          The MXToolBox API will return a 400 if the API key has gone over the daily rate limit. 
+          example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
+         */
         if (statusCode === HTTP_CODE_BAD_REQUEST_400) {
           return reject(
-            new ApiRequestError(`API Request Error: Check your Zscalar instance URL`, {
-              statusCode,
-              requestOptions
-            })
+            new ApiRequestError(
+              `Request Error: 
+                - Check that your API key has not gone over the daily rate limit.
+                - Or, check that the MXtoolBox URL is correct in the Polarity client user options.
+                `,
+              {
+                statusCode,
+                requestOptions
+              }
+            )
           );
         }
 
         if (statusCode === HTTP_CODE_EXPIRED_BEARER_TOKEN_401) {
           return reject(
             new AuthRequestError(
-              `Authentication Error: If the your token has not timed out, 
-               please run the search again to get a new token. 
-               Or Check that your Zscalar API token is valid.`,
+              `Authorization Error: Check that your API key is valid.`,
               {
                 statusCode,
                 requestOptions
@@ -136,57 +135,47 @@ class PolarityRequest {
         if (statusCode === HTTP_CODE_TOKEN_MISSING_PERMISSIONS_OR_REVOKED_403) {
           return reject(
             new AuthRequestError(
-              `Token Error: This code is returned due to one of the following reasons:
-
-               - The API key was disabled by your service provider
-               - User's role has no access permissions or functional scope
-               - A required SKU subscription is missing
-               - API operations that use POST, PUT, or DELETE methods are performed when the ZIA Admin Portal is in maintenance mode during a scheduled upgrade
-              `
+              `Token Error: Check that your API key is not expired and that you have the correct permissions.`
             )
           );
         }
-        // need to fix this case, it is not working
         if (statusCode === HTTP_CODE_NOT_FOUND_404) {
           return resolve({ ...response, requestOptions });
         }
 
+        /*
+            I don't know.
+         */
         if (statusCode === HTTP_CODE_API_LIMIT_REACHED_429) {
           return reject(
-            new RetryRequestError(
-              `API Limit Error: Exceeded the rate limit or quota. Please try again later.`,
+            new ApiRequestError(``, {
+              statusCode,
+              requestOptions
+            })
+          );
+        }
+
+        //TODO: add retry logic for 500, 502, 504s
+        if (
+          statusCode === HTTP_CODE_SERVER_LIMIT_500 ||
+          statusCode === HTTP_CODE_SERVER_LIMIT_502 ||
+          statusCode === HTTP_CODE_SERVER_LIMIT_504
+        ) {
+          return reject(
+            new NetworkError(
+              `Network Error: The server you are trying to connect to is unavailable`,
               {
-                statusCode,
+                cause: err,
                 requestOptions
               }
             )
           );
         }
-
-        //TODO: add retry logic for 500, 502, 504s
-        if (err) {
-          if (
-            statusCode === HTTP_CODE_SERVER_LIMIT_500 ||
-            statusCode === HTTP_CODE_SERVER_LIMIT_502 ||
-            statusCode === HTTP_CODE_SERVER_LIMIT_504
-          ) {
-            return reject(
-              new RetryRequestError(
-                `Network Error: an unexpected error has occurred, Or
-                 the Zscaler API is currently unavailable. Please try again later.`,
-                {
-                  cause: err,
-                  requestOptions
-                }
-              )
-            );
-          }
-        }
       });
     });
   }
 
-  async runRequestsInParallel (requestOptions, limit = 10) {
+  async runRequestsInParallel(requestOptions, limit = 10) {
     const Logger = getLogger();
     Logger.trace({ requestOptions }, 'Request Options (before request)');
 
@@ -203,27 +192,19 @@ class PolarityRequest {
       requestOptions
     );
 
-    return parallelLimit(unexecutedRequestFunctions, limit);
+    const results = await parallelLimit(unexecutedRequestFunctions, limit);
+    /* 
+      If there is only one request, we want to return the result of that request instead of an array of results.
+    */
+    if (results.length === 1) {
+      Logger.trace({ results, requestOptions }, 'Request Options (after request)');
+      return results[0];
+    }
+
+    return results;
   }
 
-  // async handleRetry (err) {
-  //   const Logger = getLogger();
-  //   Logger.trace({ err }, 'Handling Retry');
-
-  //   if (err instanceof RetryRequestError) {
-  //     if (this.currentRetries < MAX_RETRIES) {
-  //       this.currentRetries++;
-  //       const response = this.request(this.requestOptions);
-  //       if (response && response.statusCode === HTTP_CODE_SUCCESS_200) {
-  //         this.currentRetries = 0;
-  //       }
-  //     } else {
-  //       throw err;
-  //     }
-  //   }
-  // }
-
-  async send (requestOptions) {
+  async send(requestOptions) {
     const Logger = getLogger();
     Logger.trace({ requestOptions }, 'Request Options (before request)');
     return await this.runRequestsInParallel(requestOptions);
