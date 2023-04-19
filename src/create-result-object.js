@@ -11,15 +11,15 @@ class PolarityResult {
     };
   }
 
-  createResultsObject(apiResponse, summary = null) {
+  createResultsObject(apiResponse) {
     const Logger = getLogger();
     Logger.trace({ apiResponse }, 'createResultObject arguments');
 
     return {
       entity: apiResponse.entity,
       data: {
-        summary,
-        details: apiResponse.result.body
+        summary: this.createSummary(apiResponse),
+        details: apiResponse.body
       }
     };
   }
@@ -29,6 +29,14 @@ class PolarityResult {
       entity: this.entity,
       data: null
     };
+  }
+
+  createSummary(apiResponse) {
+    const passedCount = apiResponse.body.Passed.length;
+    const failedCount = apiResponse.body.Failed.length;
+    const warningCount = apiResponse.body.Warnings.length;
+
+    return [`Passed: ${passedCount} Failed: ${failedCount} Warnings: ${warningCount}`];
   }
 }
 

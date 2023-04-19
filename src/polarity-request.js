@@ -7,6 +7,7 @@ const {
 } = require('../config/config.js');
 const { map } = require('lodash/fp');
 const { parallelLimit } = require('async');
+const { log } = require('console');
 
 const _configFieldIsValid = (field) => typeof field === 'string' && field.length > 0;
 
@@ -106,9 +107,15 @@ class PolarityRequest {
           example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
          */
         if (statusCode === HTTP_CODE_BAD_REQUEST_400) {
+          const message = response.body.substring(0, response.body.indexOf(' - '));
+
+          if (message === 'Over Daily API Limit') {
+            return resolve();
+          }
+
           return reject(
             new ApiRequestError(
-              `Request Error: 
+              `Request Error:
                 - Check that your API key has not gone over the daily rate limit.
                 - Or, check that the MXtoolBox URL is correct in the Polarity client user options.
                 `,
@@ -143,9 +150,6 @@ class PolarityRequest {
           return resolve({ ...response, requestOptions });
         }
 
-        /*
-            I don't know.
-         */
         if (statusCode === HTTP_CODE_API_LIMIT_REACHED_429) {
           return reject(
             new ApiRequestError(``, {
@@ -176,9 +180,6 @@ class PolarityRequest {
   }
 
   async runRequestsInParallel(requestOptions, limit = 10) {
-    const Logger = getLogger();
-    Logger.trace({ requestOptions }, 'Request Options (before request)');
-
     if (!Array.isArray(requestOptions)) {
       requestOptions = [requestOptions];
     }
@@ -187,21 +188,12 @@ class PolarityRequest {
       ({ entity, ...singleRequestOptions }) =>
         async () => {
           const result = await this.request(singleRequestOptions);
-          return result ? { entity, result } : result;
+          return result ? { entity, ...result } : result;
         },
       requestOptions
     );
 
-    const results = await parallelLimit(unexecutedRequestFunctions, limit);
-    /* 
-      If there is only one request, we want to return the result of that request instead of an array of results.
-    */
-    if (results.length === 1) {
-      Logger.trace({ results, requestOptions }, 'Request Options (after request)');
-      return results[0];
-    }
-
-    return results;
+    return await parallelLimit(unexecutedRequestFunctions, limit);
   }
 
   async send(requestOptions) {

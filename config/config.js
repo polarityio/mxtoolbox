@@ -2,7 +2,7 @@ module.exports = {
   name: 'MxToolBox',
   acronym: 'MXT',
   description: '',
-  entityTypes: ['domain'],
+  entityTypes: ['domain', 'ip', 'url'],
   styles: ['./styles/styles.less'],
   defaultColor: 'light-blue',
   block: {
@@ -22,7 +22,7 @@ module.exports = {
     rejectUnauthorized: true
   },
   logging: {
-    level: 'trace' //trace, debug, info, warn, error, fatal
+    level: 'info' //trace, debug, info, warn, error, fatal
   },
   options: [
     {
@@ -43,6 +43,52 @@ module.exports = {
       type: 'password',
       userCanEdit: false,
       adminOnly: true
+    },
+    {
+      key: 'dataSources',
+      name: 'Data Sources',
+      description:
+        'Select the data sources you would like to use for the MxToolBox integration.  If no data sources are selected, all data sources will be used.',
+      default: [
+        {
+          value: 'mx',
+          display: 'mx'
+        },
+        {
+          value: 'blacklist',
+          display: 'blacklist'
+        },
+        {
+          value: 'http',
+          display: 'http'
+        },
+        {
+          value: 'https',
+          display: 'https'
+        }
+      ],
+      type: 'select',
+      options: [
+        {
+          value: 'mx',
+          display: 'mx'
+        },
+        {
+          value: 'blacklist',
+          display: 'blacklist'
+        },
+        {
+          value: 'http',
+          display: 'http'
+        },
+        {
+          value: 'https',
+          display: 'https'
+        }
+      ],
+      multiple: true,
+      userCanEdit: false,
+      adminOnly: false
     }
   ]
 };

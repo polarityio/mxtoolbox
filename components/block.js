@@ -5,31 +5,25 @@ polarity.export = PolarityComponent.extend({
   }),
   activeTab: 'mx',
   init() {
-    const defaultDetails = this.get('details');
-    this.set('passedmx', defaultDetails.Passed);
-    this.set('failedmx', defaultDetails.Failed);
-
     this._super(...arguments);
   },
   actions: {
-    searchType: function (type) {
-      this.set('activeTab', type);
+    changeTab: function (tabName) {
+      console.log(this.get('details'));
+      this.set('activeTab', tabName);
+    },
+    getQuota: function () {
+      this.toggleProperty('viewQuota');
 
       this.sendIntegrationMessage({
-        action: 'SEARCH_TYPE',
+        action: 'GET_QUOTA',
         data: {
-          entity: this.get('block.entity'),
-          type
+          entity: this.get('block.entity')
         }
       })
         .then((response) => {
-          const { Passed, Failed } = response.result.body;
-          this.set('passed' + type, Passed);
-          this.set('failed' + type, Failed);
-
-          const data = response.result.body;
-          this.set('searchInfo', data);
-          console.log(this.get('searchInfo'));
+          const quotaData = response[0].body;
+          this.set('quota', quotaData);
         })
         .catch((err) => {
           this.set('errorMessage', JSON.stringify(`${err.message}`));
