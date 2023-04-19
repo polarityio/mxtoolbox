@@ -1,0 +1,368 @@
+<ul class="nav nav-tabs mt-2">
+  {{#if (eq details.Command "mx")}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "mx"}}
+        class="nav-link {{if (or (eq activeTab 'mx') (not activeTab)) 'active'}}"
+        href="#"
+      >
+        MX
+      </a>
+    </li>
+  {{/if}}
+  {{#if (eq details.Command "blacklist")}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "blacklist"}}
+        class="nav-link {{if (or (eq activeTab 'blacklist') (not activeTab)) 'active'}}"
+        href="#"
+      >
+        Blacklist
+      </a>
+    </li>
+  {{/if}}
+  {{#if (eq details.Command "https")}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "https"}}
+        class="nav-link {{if (eq activeTab 'https') 'active'}}"
+        href="#"
+      >
+        HTTPS
+      </a>
+    </li>
+  {{/if}}
+  {{#if (eq details.Command "http")}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "http"}}
+        class="nav-link {{if (eq activeTab 'http') 'active'}}"
+        href="#"
+      >
+        HTTP
+      </a>
+    </li>
+  {{/if}}
+</ul>
+
+{{! mx tab }}
+{{#if (eq activeTab "mx")}}
+  <h1 class="p-title">
+    {{fa-icon "info" fixedWidth=true}}
+    MX Information
+  </h1>
+  <div class="info">
+    {{#if details.MxRep}}
+      <div>
+        <span class="p-key"> MX Rep: </span>
+        <span class="p-value">{{details.MxRep}}</span>
+      </div>
+    {{/if}}
+    {{#if details.EmailServiceProvider}}
+      <div>
+        <span class="p-key"> Email Service Provider: </span>
+        <span class="p-value">{{details.EmailServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if details.DnsServiceProvider}}
+      <div>
+        <span class="p-key"> Dns Service Provider: </span>
+        <span class="p-value">{{details.DnsServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if details.DnsServiceProviderIdentifier}}
+      <div>
+        <span class="p-key"> Dns Service Provider Identifier: </span>
+        <span class="p-value">{{details.DnsServiceProviderIdentifier}}</span>
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="toggle-header">
+    <span class="p-action" {{action "togglePassedResults" "mx"}}>
+      Passed Results
+      {{fa-icon (if mxPassed "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+  {{#if mxPassed}}
+    {{#each details.Passed as |result|}}
+      <div class="passed-details">
+        {{#if result.Name}}
+          <div>
+            <span class="p-key"> Name: </span>
+            <span class="p-value">{{result.Name}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Info}}
+          <div>
+            <span class="p-key"> Info: </span>
+            <span class="p-value">{{result.Info}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Url}}
+          <div>
+            <span class="p-key"> URL: </span>
+            <span class="p-value">{{result.Url}}</span>
+          </div>
+        {{/if}}
+        {{#if result.PublicDescription}}
+          <div>
+            <span class="p-key"> PublicDescription: </span>
+            <span class="p-value">{{result.PublicDescription}}</span>
+          </div>
+        {{/if}}
+        {{#if result.IsExcludedByUser}}
+          <div>
+            <span class="p-key"> IsExcludedByUser: </span>
+            <span class="p-value">{{result.IsExcludedByUser}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{/if}}
+
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleFailedResults" "mx"}}>
+      Failed Results
+      {{fa-icon (if mxFailed "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if mxFailed}}
+    {{#each failedmx.Failed as |result|}}
+      <div class="failed-details">
+        {{#if result.Name}}
+          <div>
+            <span class="p-key"> Name: </span>
+            <span class="p-value">{{result.Name}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Info}}
+          <div>
+            <span class="p-key"> Info: </span>
+            <span class="p-value">{{result.Info}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Url}}
+          <div>
+            <span class="p-key"> Url: </span>
+            <span class="p-value">{{result.Url}}</span>
+          </div>
+        {{/if}}
+        {{#if result.PublicDescription}}
+          <div>
+            <span class="p-key"> PublicDescription: </span>
+            <span class="p-value">{{result.PublicDescription}}</span>
+          </div>
+        {{/if}}
+        {{#if result.IsExcludedByUser}}
+          <div>
+            <span class="p-key"> IsExcludedByUser: </span>
+            <span class="p-value">{{result.IsExcludedByUser}}</span>
+          </div>
+        {{/if}}
+        {{#if result.MxRep}}
+          <div>
+            <span class="p-key"> MX Rep: </span>
+            <span class="p-value">{{result.MxRep}}</span>
+          </div>
+        {{/if}}
+        {{#if result.EmailServiceProvider}}
+          <div>
+            <span class="p-key"> Email Service Provider: </span>
+            <span class="p-value">{{result.EmailServiceProvider}}</span>
+          </div>
+        {{/if}}
+        {{#if result.DnsServiceProvider}}
+          <div>
+            <span class="p-key"> Dns Service Provider: </span>
+            <span class="p-value">{{result.DnsServiceProvider}}</span>
+          </div>
+        {{/if}}
+        {{#if result.DnsServiceProviderIdentifier}}
+          <div>
+            <span class="p-key"> Dns Service Provider Identifier: </span>
+            <span class="p-value">{{result.DnsServiceProviderIdentifier}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{else}}
+    <span>No Failed Results</span>
+  {{/if}}
+{{/if}}
+{{! end mx }}
+
+{{! blacklist tab }}
+{{#if (eq activeTab "blacklist")}}
+  <div class="info">
+    <h1 class="p-title">
+      {{fa-icon "info" fixedWidth=true}}
+      Blacklist Information
+    </h1>
+    {{#if details.MxRep}}
+      <div>
+        <span class="p-key"> MX Rep: </span>
+        <span class="p-value">{{details.MxRep}}</span>
+      </div>
+    {{/if}}
+    {{#if details.EmailServiceProvider}}
+      <div>
+        <span class="p-key"> Email Service Provider: </span>
+        <span class="p-value">{{details.EmailServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if details.DnsServiceProvider}}
+      <div>
+        <span class="p-key"> Dns Service Provider: </span>
+        <span class="p-value">{{details.DnsServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if details.DnsServiceProviderIdentifier}}
+      <div>
+        <span class="p-key"> Dns Service Provider Identifier: </span>
+        <span class="p-value">{{details.DnsServiceProviderIdentifier}}</span>
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="toggle-header">
+    <span class="p-action" {{action "togglePassedResults" "blacklist"}}>
+      Passed Results
+      {{fa-icon (if blacklistPassed "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if blacklistPassed}}
+    {{#each passedblacklist.Passed as |result|}}
+      <div class="passed-details">
+        {{#if result.Name}}
+          <div>
+            <span class="p-key"> Name: </span>
+            <span class="p-value">{{result.Name}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Info}}
+          <div>
+            <span class="p-key"> Info: </span>
+            <span class="p-value">{{result.Info}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Url}}
+          <div>
+            <span class="p-key"> URL: </span>
+            <span class="p-value">{{result.Url}}</span>
+          </div>
+        {{/if}}
+        {{#if result.PublicDescription}}
+          <div>
+            <span class="p-key"> PublicDescription: </span>
+            <span class="p-value">{{result.PublicDescription}}</span>
+          </div>
+        {{/if}}
+        {{#if result.IsExcludedByUser}}
+          <div>
+            <span class="p-key"> IsExcludedByUser: </span>
+            <span class="p-value">{{result.IsExcludedByUser}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{else}}
+    <span>No Passed Results</span>
+  {{/if}}
+
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleFailedResults" "mx"}}>
+      Failed Results
+      {{fa-icon (if blacklistFailed "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if blacklistFailed}}
+    {{#each failedmx.Failed as |result|}}
+      <div class="failed-details">
+        {{#if result.Name}}
+          <div>
+            <span class="p-key"> Name: </span>
+            <span class="p-value">{{result.Name}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Info}}
+          <div>
+            <span class="p-key"> Info: </span>
+            <span class="p-value">{{result.Info}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Url}}
+          <div>
+            <span class="p-key"> Url: </span>
+            <span class="p-value">{{result.Url}}</span>
+          </div>
+        {{/if}}
+        {{#if result.PublicDescription}}
+          <div>
+            <span class="p-key"> PublicDescription: </span>
+            <span class="p-value">{{result.PublicDescription}}</span>
+          </div>
+        {{/if}}
+        {{#if result.IsExcludedByUser}}
+          <div>
+            <span class="p-key"> IsExcludedByUser: </span>
+            <span class="p-value">{{result.IsExcludedByUser}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{else}}
+    <span>No Failed Results</span>
+  {{/if}}
+{{/if}}
+{{! end blacklist }}
+
+<div class="quota-header">
+  <span class="p-action" {{action "getQuota"}}>
+    Get Quota
+    {{fa-icon (if viewQuota "caret-up" "caret-down") fixedWidth=true}}
+  </span>
+</div>
+{{! QUOTA }}
+{{#if viewQuota}}
+  {{#if quota.DnsRequests}}
+    <div>
+      <span class="p-key"> dns request: </span>
+      <span class="p-value">{{quota.DnsRequests}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.DnsMax}}
+    <div>
+      <span class="p-key"> dns max: </span>
+      <span class="p-value">{{quota.DnsMax}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.DnsOverageErrors}}
+    <div>
+      <span class="p-key"> dns max: </span>
+      <span class="p-value">{{quota.DnsOverageErrors}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkRequests}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkRequests}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkMax}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkMax}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkOverageErrors}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkOverageEr}}</span>
+    </div>
+  {{/if}}
+{{/if}}
+{{! END QUOTA}}
