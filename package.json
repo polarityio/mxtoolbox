@@ -1,6 +1,6 @@
 {
   "main": "./integration.js",
-  "name": "zscalar",
+  "name": "mxtoolbox",
   "version": "3.0.0",
   "private": true,
   "license": "MIT",
