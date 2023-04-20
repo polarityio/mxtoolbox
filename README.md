@@ -16,6 +16,10 @@ Your URL to access an MxToolBox API instance.
 
 The API associated with your MxToolBox account.
 
+### Data Sources
+
+Select the data sources you would like to use for the MxToolBox integration.  If no data sources are selected, all data sources will be used.
+
 ## Installation Instructions
 
 Installation instructions for integrations are provided on the [PolarityIO GitHub Page](https://polarityio.github.io/).
