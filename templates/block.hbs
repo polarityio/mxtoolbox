@@ -84,41 +84,45 @@
       {{fa-icon (if mxPassed "caret-up" "caret-down") fixedWidth=true}}
     </span>
   </div>
-  {{#if mxPassed}}
-    {{#each details.Passed as |result|}}
-      <div class="passed-details">
-        {{#if result.Name}}
-          <div>
-            <span class="p-key"> Name: </span>
-            <span class="p-value">{{result.Name}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Info}}
-          <div>
-            <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> URL: </span>
-            <span class="p-value">{{result.Url}}</span>
-          </div>
-        {{/if}}
-        {{#if result.PublicDescription}}
-          <div>
-            <span class="p-key"> PublicDescription: </span>
-            <span class="p-value">{{result.PublicDescription}}</span>
-          </div>
-        {{/if}}
-        {{#if result.IsExcludedByUser}}
-          <div>
-            <span class="p-key"> IsExcludedByUser: </span>
-            <span class="p-value">{{result.IsExcludedByUser}}</span>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
+  {{#if details.Passed.length}}
+    {{#if mxPassed}}
+      {{#each details.Passed as |result|}}
+        <div class="passed-details">
+          {{#if result.Name}}
+            <div>
+              <span class="p-key"> Name: </span>
+              <span class="p-value">{{result.Name}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Info}}
+            <div>
+              <span class="p-key"> Info: </span>
+              <span class="p-value">{{result.Info}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Url}}
+            <div>
+              <span class="p-key"> URL: </span>
+              <span class="p-value">{{result.Url}}</span>
+            </div>
+          {{/if}}
+          {{#if result.PublicDescription}}
+            <div>
+              <span class="p-key"> PublicDescription: </span>
+              <span class="p-value">{{result.PublicDescription}}</span>
+            </div>
+          {{/if}}
+          {{#if result.IsExcludedByUser}}
+            <div>
+              <span class="p-key"> IsExcludedByUser: </span>
+              <span class="p-value">{{result.IsExcludedByUser}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
+  {{else}}
+    <span> No Passed Results</span>
   {{/if}}
 
   <div class="toggle-header">
@@ -127,66 +131,67 @@
       {{fa-icon (if mxFailed "caret-up" "caret-down") fixedWidth=true}}
     </span>
   </div>
-
-  {{#if mxFailed}}
-    {{#each failedmx.Failed as |result|}}
-      <div class="failed-details">
-        {{#if result.Name}}
-          <div>
-            <span class="p-key"> Name: </span>
-            <span class="p-value">{{result.Name}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Info}}
-          <div>
-            <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> Url: </span>
-            <span class="p-value">{{result.Url}}</span>
-          </div>
-        {{/if}}
-        {{#if result.PublicDescription}}
-          <div>
-            <span class="p-key"> PublicDescription: </span>
-            <span class="p-value">{{result.PublicDescription}}</span>
-          </div>
-        {{/if}}
-        {{#if result.IsExcludedByUser}}
-          <div>
-            <span class="p-key"> IsExcludedByUser: </span>
-            <span class="p-value">{{result.IsExcludedByUser}}</span>
-          </div>
-        {{/if}}
-        {{#if result.MxRep}}
-          <div>
-            <span class="p-key"> MX Rep: </span>
-            <span class="p-value">{{result.MxRep}}</span>
-          </div>
-        {{/if}}
-        {{#if result.EmailServiceProvider}}
-          <div>
-            <span class="p-key"> Email Service Provider: </span>
-            <span class="p-value">{{result.EmailServiceProvider}}</span>
-          </div>
-        {{/if}}
-        {{#if result.DnsServiceProvider}}
-          <div>
-            <span class="p-key"> Dns Service Provider: </span>
-            <span class="p-value">{{result.DnsServiceProvider}}</span>
-          </div>
-        {{/if}}
-        {{#if result.DnsServiceProviderIdentifier}}
-          <div>
-            <span class="p-key"> Dns Service Provider Identifier: </span>
-            <span class="p-value">{{result.DnsServiceProviderIdentifier}}</span>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
+  {{#if details.Failed.length}}
+    {{#if mxFailed}}
+      {{#each details.Failed as |result|}}
+        <div class="failed-details">
+          {{#if result.Name}}
+            <div>
+              <span class="p-key"> Name: </span>
+              <span class="p-value">{{result.Name}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Info}}
+            <div>
+              <span class="p-key"> Info: </span>
+              <span class="p-value">{{result.Info}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Url}}
+            <div>
+              <span class="p-key"> Url: </span>
+              <span class="p-value">{{result.Url}}</span>
+            </div>
+          {{/if}}
+          {{#if result.PublicDescription}}
+            <div>
+              <span class="p-key"> PublicDescription: </span>
+              <span class="p-value">{{result.PublicDescription}}</span>
+            </div>
+          {{/if}}
+          {{#if result.IsExcludedByUser}}
+            <div>
+              <span class="p-key"> IsExcludedByUser: </span>
+              <span class="p-value">{{result.IsExcludedByUser}}</span>
+            </div>
+          {{/if}}
+          {{#if result.MxRep}}
+            <div>
+              <span class="p-key"> MX Rep: </span>
+              <span class="p-value">{{result.MxRep}}</span>
+            </div>
+          {{/if}}
+          {{#if result.EmailServiceProvider}}
+            <div>
+              <span class="p-key"> Email Service Provider: </span>
+              <span class="p-value">{{result.EmailServiceProvider}}</span>
+            </div>
+          {{/if}}
+          {{#if result.DnsServiceProvider}}
+            <div>
+              <span class="p-key"> Dns Service Provider: </span>
+              <span class="p-value">{{result.DnsServiceProvider}}</span>
+            </div>
+          {{/if}}
+          {{#if result.DnsServiceProviderIdentifier}}
+            <div>
+              <span class="p-key"> Dns Service Provider Identifier: </span>
+              <span class="p-value">{{result.DnsServiceProviderIdentifier}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
   {{else}}
     <span>No Failed Results</span>
   {{/if}}
@@ -232,42 +237,43 @@
       {{fa-icon (if blacklistPassed "caret-up" "caret-down") fixedWidth=true}}
     </span>
   </div>
-
-  {{#if blacklistPassed}}
-    {{#each passedblacklist.Passed as |result|}}
-      <div class="passed-details">
-        {{#if result.Name}}
-          <div>
-            <span class="p-key"> Name: </span>
-            <span class="p-value">{{result.Name}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Info}}
-          <div>
-            <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> URL: </span>
-            <span class="p-value">{{result.Url}}</span>
-          </div>
-        {{/if}}
-        {{#if result.PublicDescription}}
-          <div>
-            <span class="p-key"> PublicDescription: </span>
-            <span class="p-value">{{result.PublicDescription}}</span>
-          </div>
-        {{/if}}
-        {{#if result.IsExcludedByUser}}
-          <div>
-            <span class="p-key"> IsExcludedByUser: </span>
-            <span class="p-value">{{result.IsExcludedByUser}}</span>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
+  {{#if details.Passed.length}}
+    {{#if blacklistPassed}}
+      {{#each passedblacklist.Passed as |result|}}
+        <div class="passed-details">
+          {{#if result.Name}}
+            <div>
+              <span class="p-key"> Name: </span>
+              <span class="p-value">{{result.Name}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Info}}
+            <div>
+              <span class="p-key"> Info: </span>
+              <span class="p-value">{{result.Info}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Url}}
+            <div>
+              <span class="p-key"> URL: </span>
+              <span class="p-value">{{result.Url}}</span>
+            </div>
+          {{/if}}
+          {{#if result.PublicDescription}}
+            <div>
+              <span class="p-key"> PublicDescription: </span>
+              <span class="p-value">{{result.PublicDescription}}</span>
+            </div>
+          {{/if}}
+          {{#if result.IsExcludedByUser}}
+            <div>
+              <span class="p-key"> IsExcludedByUser: </span>
+              <span class="p-value">{{result.IsExcludedByUser}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
   {{else}}
     <span>No Passed Results</span>
   {{/if}}
@@ -278,55 +284,57 @@
       {{fa-icon (if blacklistFailed "caret-up" "caret-down") fixedWidth=true}}
     </span>
   </div>
-
-  {{#if blacklistFailed}}
-    {{#each failedmx.Failed as |result|}}
-      <div class="failed-details">
-        {{#if result.Name}}
-          <div>
-            <span class="p-key"> Name: </span>
-            <span class="p-value">{{result.Name}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Info}}
-          <div>
-            <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> Url: </span>
-            <span class="p-value">{{result.Url}}</span>
-          </div>
-        {{/if}}
-        {{#if result.PublicDescription}}
-          <div>
-            <span class="p-key"> PublicDescription: </span>
-            <span class="p-value">{{result.PublicDescription}}</span>
-          </div>
-        {{/if}}
-        {{#if result.IsExcludedByUser}}
-          <div>
-            <span class="p-key"> IsExcludedByUser: </span>
-            <span class="p-value">{{result.IsExcludedByUser}}</span>
-          </div>
-        {{/if}}
-      </div>
-    {{/each}}
+  {{#if details.Failed.length}}
+    {{#if blacklistFailed}}
+      {{#each details.Failed as |result|}}
+        <div class="failed-details">
+          {{#if result.Name}}
+            <div>
+              <span class="p-key"> Name: </span>
+              <span class="p-value">{{result.Name}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Info}}
+            <div>
+              <span class="p-key"> Info: </span>
+              <span class="p-value">{{result.Info}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Url}}
+            <div>
+              <span class="p-key"> Url: </span>
+              <span class="p-value">{{result.Url}}</span>
+            </div>
+          {{/if}}
+          {{#if result.PublicDescription}}
+            <div>
+              <span class="p-key"> PublicDescription: </span>
+              <span class="p-value">{{result.PublicDescription}}</span>
+            </div>
+          {{/if}}
+          {{#if result.IsExcludedByUser}}
+            <div>
+              <span class="p-key"> IsExcludedByUser: </span>
+              <span class="p-value">{{result.IsExcludedByUser}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{/if}}
   {{else}}
     <span>No Failed Results</span>
   {{/if}}
 {{/if}}
 {{! end blacklist }}
 
+{{! QUOTA }}
 <div class="quota-header">
   <span class="p-action" {{action "getQuota"}}>
     Get Quota
     {{fa-icon (if viewQuota "caret-up" "caret-down") fixedWidth=true}}
   </span>
 </div>
-{{! QUOTA }}
+
 {{#if viewQuota}}
   {{#if quota.DnsRequests}}
     <div>

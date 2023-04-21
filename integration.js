@@ -77,8 +77,36 @@ async function onMessage(payload, options, cb) {
   }
 }
 
+function validateOptions(userOptions, cb) {
+  const errors = [];
+
+  if (
+    typeof userOptions.url.value !== 'string' ||
+    (typeof userOptions.url.value === 'string' && userOptions.url.value.length === 0)
+  ) {
+    errors.push({
+      key: 'url',
+      message: 'You must provide a URL'
+    });
+  }
+
+  if (
+    typeof userOptions.apiKey.value !== 'string' ||
+    (typeof userOptions.apiKey.value === 'string' &&
+      userOptions.apiKey.value.length === 0)
+  ) {
+    errors.push({
+      key: 'apiKey',
+      message: 'You must provide an API Key'
+    });
+  }
+
+  return cb(null, errors);
+}
+
 module.exports = {
   startup,
   doLookup,
-  onMessage
+  onMessage,
+  validateOptions
 };

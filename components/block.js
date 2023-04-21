@@ -5,6 +5,14 @@ polarity.export = PolarityComponent.extend({
   }),
   activeTab: 'mx',
   init() {
+    const passedCount = this.get('details.Passed').length;
+    const failedCOunt = this.get('details.Failed').length;
+    if (passedCount <= 3) {
+      this.set('mxPassed', true);
+    }
+    if (failedCOunt <= 3) {
+      this.set('mxFailed', true);
+    }
     this._super(...arguments);
   },
   actions: {

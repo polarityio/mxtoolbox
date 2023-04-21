@@ -4,6 +4,8 @@
 
 MxToolBox is a web-based tool that provides a suite of free and paid network diagnostic and monitoring services.The platform provides comprehensive analysis and reports to help users identify and troubleshoot problems.
 
+Polarity's MxToolBox integration allows automated queries of MxToolBox services using IP Addresses, URLs, Domains, and Hashes.
+
 To learn more about MxToolBox, visit the [official website](https://mxtoolbox.com/).
 
 ## MxToolBox Integration Options

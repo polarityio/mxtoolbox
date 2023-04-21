@@ -1,7 +1,8 @@
 module.exports = {
   name: 'MxToolBox',
   acronym: 'MXT',
-  description: '',
+  description: `Polarity's MxToolBox integration allows automated queries of MxToolBox 
+    services using IP Addresses, URLs, Domains, and Hashes.`,
   entityTypes: ['domain', 'ip', 'url'],
   styles: ['./styles/styles.less'],
   defaultColor: 'light-blue',
