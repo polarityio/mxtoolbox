@@ -1,3 +1,4 @@
+const { get } = require('lodash/fp');
 const { getLogger } = require('./logger');
 
 class PolarityResult {
@@ -19,7 +20,7 @@ class PolarityResult {
       entity: apiResponse.entity,
       data: {
         summary: this.createSummary(apiResponse),
-        details: apiResponse.body
+        details: apiResponse
       }
     };
   }
@@ -32,11 +33,27 @@ class PolarityResult {
   }
 
   createSummary(apiResponse) {
-    const passedCount = apiResponse.body.Passed.length;
-    const failedCount = apiResponse.body.Failed.length;
-    const warningCount = apiResponse.body.Warnings.length;
+    const passedCountTotal =
+      (get('mx.Passed.length', apiResponse) || 0) +
+      (get('blacklist.Passed.length', apiResponse) || 0) +
+      (get('http.Passed.length', apiResponse) || 0) +
+      (get('https.Passed.length', apiResponse) || 0);
 
-    return [`Passed: ${passedCount} Failed: ${failedCount} Warnings: ${warningCount}`];
+    const failedCountTotal =
+      (get('mx.Failed.length', apiResponse) || 0) +
+      (get('blacklist.Failed.length', apiResponse) || 0) +
+      (get('http.Failed.length', apiResponse) || 0) +
+      (get('https.Failed.length', apiResponse) || 0);
+
+    const warningCountTotal =
+      (get('mx.Warnings.length', apiResponse) || 0) +
+      (get('blacklist.Warnings.length', apiResponse) || 0) +
+      (get('http.Warnings.length', apiResponse) || 0) +
+      (get('https.Warnings.length', apiResponse) || 0);
+
+    return [
+      `Passed: ${passedCountTotal} Failed: ${failedCountTotal} Warnings: ${warningCountTotal}`
+    ];
   }
 }
 

@@ -188,7 +188,7 @@ class PolarityRequest {
       ({ entity, ...singleRequestOptions }) =>
         async () => {
           const result = await this.request(singleRequestOptions);
-          return result ? { entity, ...result } : result;
+          return result ? { entity, result } : result;
         },
       requestOptions
     );
