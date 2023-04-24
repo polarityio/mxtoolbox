@@ -21,7 +21,7 @@
       </a>
     </li>
   {{/if}}
-  {{#if (eq details.Command "https")}}
+  {{#if details.https}}
     <li class="nav-item">
       <a
         {{action "changeTab" "https"}}
@@ -32,7 +32,7 @@
       </a>
     </li>
   {{/if}}
-  {{#if (eq details.Command "http")}}
+  {{#if details.http}}
     <li class="nav-item">
       <a
         {{action "changeTab" "http"}}
@@ -195,3 +195,50 @@
     <span>No Failed Results</span>
   {{/if}}
 {{/if}}
+
+{{! QUOTA }}
+<div class="quota-header">
+  <span class="p-action" {{action "getQuota"}}>
+    Get Quota
+    {{fa-icon (if viewQuota "caret-up" "caret-down") fixedWidth=true}}
+  </span>
+</div>
+{{#if viewQuota}}
+  {{#if quota.DnsRequests}}
+    <div>
+      <span class="p-key"> dns request: </span>
+      <span class="p-value">{{quota.DnsRequests}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.DnsMax}}
+    <div>
+      <span class="p-key"> dns max: </span>
+      <span class="p-value">{{quota.DnsMax}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.DnsOverageErrors}}
+    <div>
+      <span class="p-key"> dns max: </span>
+      <span class="p-value">{{quota.DnsOverageErrors}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkRequests}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkRequests}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkMax}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkMax}}</span>
+    </div>
+  {{/if}}
+  {{#if quota.NetworkOverageErrors}}
+    <div>
+      <span class="p-key"> Network Requests: </span>
+      <span class="p-value">{{quota.NetworkOverageEr}}</span>
+    </div>
+  {{/if}}
+{{/if}}
+{{! END QUOTA}}

@@ -57,7 +57,8 @@ polarity.export = PolarityComponent.extend({
         }
       })
         .then((response) => {
-          const quotaData = response[0].body;
+          console.log(response);
+          const quotaData = response[0].result.body;
           this.set('quota', quotaData);
         })
         .catch((err) => {
