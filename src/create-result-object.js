@@ -19,7 +19,7 @@ class PolarityResult {
     return {
       entity: apiResponse.entity,
       data: {
-        summary: this.createSummary(apiResponse),
+        summary: createSummary(apiResponse),
         details: apiResponse
       }
     };
@@ -31,30 +31,30 @@ class PolarityResult {
       data: null
     };
   }
+}
 
-  createSummary(apiResponse) {
-    const passedCountTotal =
-      (get('mx.Passed.length', apiResponse) || 0) +
-      (get('blacklist.Passed.length', apiResponse) || 0) +
-      (get('http.Passed.length', apiResponse) || 0) +
-      (get('https.Passed.length', apiResponse) || 0);
+function createSummary(apiResponse) {
+  const passedCountTotal =
+    (get('mx.Passed.length', apiResponse) || 0) +
+    (get('blacklist.Passed.length', apiResponse) || 0) +
+    (get('http.Passed.length', apiResponse) || 0) +
+    (get('https.Passed.length', apiResponse) || 0);
 
-    const failedCountTotal =
-      (get('mx.Failed.length', apiResponse) || 0) +
-      (get('blacklist.Failed.length', apiResponse) || 0) +
-      (get('http.Failed.length', apiResponse) || 0) +
-      (get('https.Failed.length', apiResponse) || 0);
+  const failedCountTotal =
+    (get('mx.Failed.length', apiResponse) || 0) +
+    (get('blacklist.Failed.length', apiResponse) || 0) +
+    (get('http.Failed.length', apiResponse) || 0) +
+    (get('https.Failed.length', apiResponse) || 0);
 
-    const warningCountTotal =
-      (get('mx.Warnings.length', apiResponse) || 0) +
-      (get('blacklist.Warnings.length', apiResponse) || 0) +
-      (get('http.Warnings.length', apiResponse) || 0) +
-      (get('https.Warnings.length', apiResponse) || 0);
+  const warningCountTotal =
+    (get('mx.Warnings.length', apiResponse) || 0) +
+    (get('blacklist.Warnings.length', apiResponse) || 0) +
+    (get('http.Warnings.length', apiResponse) || 0) +
+    (get('https.Warnings.length', apiResponse) || 0);
 
-    return [
-      `Passed: ${passedCountTotal} Failed: ${failedCountTotal} Warnings: ${warningCountTotal}`
-    ];
-  }
+  return [
+    `Passed: ${passedCountTotal} Failed: ${failedCountTotal} Warnings: ${warningCountTotal}`
+  ];
 }
 
 module.exports = { PolarityResult };

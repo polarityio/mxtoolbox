@@ -20,7 +20,13 @@ The API associated with your MxToolBox account.
 
 ### Data Sources
 
-Select the data sources you would like to use for the MxToolBox integration.  If no data sources are selected, all data sources will be used.
+Select the data sources you would like to use for the MxToolBox integration. If no data sources are selected, all data sources will be used. Below is a table of the data sources available for each entity type:
+
+| Entity Type | Data Sources           |
+| ----------- | ---------------------- |
+| domain      | mx, blacklist          |
+| ip          | blacklist, http, https |
+| url         | http, https            |
 
 ## Installation Instructions
 

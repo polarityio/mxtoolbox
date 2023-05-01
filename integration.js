@@ -30,7 +30,6 @@ async function doLookup(entities, options, cb) {
 
   try {
     const responses = await searchType(entities);
-    // this is returning mock data
     Logger.trace({ responses }, 'lookupResults');
 
     const lookupResults = map((response) => {

@@ -44,26 +44,26 @@ polarity.export = PolarityComponent.extend({
     changeTab: function (tabName) {
       this.set('activeTab', tabName);
       this.set('currentDisplayedData', this.get(tabName + 'Data'));
-
-      console.log(this.get('currentDisplayedData'));
     },
     getQuota: function () {
       this.toggleProperty('viewQuota');
 
-      this.sendIntegrationMessage({
-        action: 'GET_QUOTA',
-        data: {
-          entity: this.get('block.entity')
-        }
-      })
-        .then((response) => {
-          console.log(response);
-          const quotaData = response[0].result.body;
-          this.set('quota', quotaData);
+      if (this.get('viewQuota')) {
+        this.sendIntegrationMessage({
+          action: 'GET_QUOTA',
+          data: {
+            entity: this.get('block.entity')
+          }
         })
-        .catch((err) => {
-          this.set('errorMessage', JSON.stringify(`${err.message}`));
-        });
+          .then((response) => {
+            console.log(response);
+            const quotaData = response[0].result.body;
+            this.set('quota', quotaData);
+          })
+          .catch((err) => {
+            this.set('errorMessage', JSON.stringify(`${err.message}`));
+          });
+      }
     },
     togglePassedResults: function (resultType) {
       this.toggleProperty(resultType);
