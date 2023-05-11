@@ -1,11 +1,11 @@
 {
-  "polarityIntegrationUuid": "5aaeedf0-def9-11ed-9257-d7644e95435e",
   "name": "MxToolBox",
   "acronym": "MXT",
   "description": "",
   "entityTypes": ["domain", "ip", "url"],
   "styles": ["./styles/styles.less"],
   "defaultColor": "light-blue",
+  "polarityIntegrationUuid": "5aaeedf0-def9-11ed-9257-d7644e95435e",
   "block": {
     "component": {
       "file": "./components/block.js"

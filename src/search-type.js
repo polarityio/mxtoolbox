@@ -1,5 +1,6 @@
 const { polarityRequest } = require('./polarity-request');
 const { getLogger } = require('./logger');
+const { get } = require('lodash/fp');
 
 async function searchType(entities) {
   const Logger = getLogger();
@@ -47,19 +48,15 @@ const ENTITY_TYPES = {
 };
 
 function findMatchingSources(entities) {
-  const dataSources = polarityRequest.options.dataSources;
+  const dataSources = polarityRequest.options.dataSources.map(get('value'));
 
   return entities.flatMap((entity) => {
-    return dataSources.map((dataSource) => {
-      const value = dataSource.value;
-      if (
-        ENTITY_TYPES[entity.transformedType].includes(value) &&
-        polarityRequest.options.dataSources.includes(value)
-      ) {
-        return { entity, dataSource: value };
-      }
-      return { entity, dataSource: null };
-    });
+    return dataSources.map((dataSource) => ({
+      entity,
+      dataSource: ENTITY_TYPES[entity.transformedType].includes(dataSource)
+        ? dataSource
+        : null
+    }));
   });
 }
 
@@ -77,7 +74,6 @@ function mergeResults(mockData) {
       (merged) => merged.entity.value === data.entity.value
     );
 
-    Logger.trace({ existingData }, 'existingData');
     if (existingData) {
       existingData[command] = data.result.body;
     } else {
