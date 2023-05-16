@@ -15,6 +15,8 @@ polarity.export = PolarityComponent.extend({
   timezone: Ember.computed('Intl', function () {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }),
+  passed: false,
+  failed: false,
   activeTab: '',
   init() {
     const keysList = ['mx', 'blacklist', 'http', 'https'];
@@ -29,6 +31,7 @@ polarity.export = PolarityComponent.extend({
     this.set('currentDisplayedData', this.get(defaultKey + 'Data'));
 
     const currentData = this.get('currentDisplayedData');
+    console.log(currentData);
 
     if (currentData.Passed.length <= 3) {
       this.toggleProperty('passed');
@@ -38,6 +41,10 @@ polarity.export = PolarityComponent.extend({
       this.toggleProperty('failed');
     }
 
+    if (currentData.Warnings.length <= 3) {
+      this.toggleProperty('warnings');
+    }
+
     this._super(...arguments);
   },
   actions: {
@@ -45,31 +52,38 @@ polarity.export = PolarityComponent.extend({
       this.set('activeTab', tabName);
       this.set('currentDisplayedData', this.get(tabName + 'Data'));
     },
-    getQuota: function () {
-      this.toggleProperty('viewQuota');
+    togglePassedResults: function () {
+      this.toggleProperty('passed');
+    },
+    toggleFailedResults: function () {
+      this.toggleProperty('failed');
+    },
+    toggleWarningResults: function () {
+      this.toggleProperty('warnings');
+    },
+    toggleQuota: function () {
+      this.getQuota();
+      this.toggleProperty('showQuota');
+    }
+  },
+  getQuota: function () {
+    if (!this.get('quotaRequested')) {
+      this.set('quotaRequested', true);
 
-      if (this.get('viewQuota')) {
-        this.sendIntegrationMessage({
-          action: 'GET_QUOTA',
-          data: {
-            entity: this.get('block.entity')
-          }
+      this.sendIntegrationMessage({
+        action: 'GET_QUOTA',
+        data: {
+          entity: this.get('block.entity')
+        }
+      })
+        .then((response) => {
+          console.log(response);
+          const quotaData = response[0].body;
+          this.set('quota', quotaData);
         })
-          .then((response) => {
-            console.log(response);
-            const quotaData = response[0].result.body;
-            this.set('quota', quotaData);
-          })
-          .catch((err) => {
-            this.set('errorMessage', JSON.stringify(`${err.message}`));
-          });
-      }
-    },
-    togglePassedResults: function (resultType) {
-      this.toggleProperty(resultType);
-    },
-    toggleFailedResults: function (resultType) {
-      this.toggleProperty(resultType);
+        .catch((err) => {
+          this.set('errorMessage', JSON.stringify(`${err.message}`));
+        });
     }
   }
 });

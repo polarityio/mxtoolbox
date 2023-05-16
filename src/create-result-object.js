@@ -34,6 +34,9 @@ class PolarityResult {
 }
 
 function createSummary(apiResponse) {
+  const Logger = getLogger();
+  Logger.trace({ apiResponse }, 'createSummary arguments');
+
   const passedCountTotal =
     (get('mx.Passed.length', apiResponse) || 0) +
     (get('blacklist.Passed.length', apiResponse) || 0) +
