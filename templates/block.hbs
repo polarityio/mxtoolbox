@@ -247,32 +247,30 @@
     {{fa-icon (if showQuota "caret-up" "caret-down") fixedWidth=true}}
   </span>
 </div>
-{{#if showQuota}}
-  {{#if quota}}
-    <div>
-      <span class="p-key"> DNS Request: </span>
-      <span class="p-value">{{quota.DnsRequests}}</span>
-    </div>
-    <div>
-      <span class="p-key"> DNS Max: </span>
-      <span class="p-value">{{quota.DnsMax}}</span>
-    </div>
-    <div>
-      <span class="p-key"> DNS Overage Errors: </span>
-      <span class="p-value">{{quota.DnsOverageErrors}}</span>
-    </div>
-    <div>
-      <span class="p-key"> Network Requests: </span>
-      <span class="p-value">{{quota.NetworkRequests}}</span>
-    </div>
-    <div>
-      <span class="p-key"> Network Requests: </span>
-      <span class="p-value">{{quota.NetworkMax}}</span>
-    </div>
-    <div>
-      <span class="p-key"> Network Requests: </span>
-      <span class="p-value">{{quota.NetworkOverageEr}}</span>
-    </div>
-  {{/if}}
+{{#if (and showQuota quota)}}
+  <div>
+    <span class="p-key"> DNS Request: </span>
+    <span class="p-value">{{quota.DnsRequests}}</span>
+  </div>
+  <div>
+    <span class="p-key"> DNS Max: </span>
+    <span class="p-value">{{quota.DnsMax}}</span>
+  </div>
+  <div>
+    <span class="p-key"> DNS Overage Errors: </span>
+    <span class="p-value">{{quota.DnsOverageErrors}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Requests: </span>
+    <span class="p-value">{{quota.NetworkRequests}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Max: </span>
+    <span class="p-value">{{quota.NetworkMax}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Overage Errors: </span>
+    <span class="p-value">{{quota.NetworkOverageErrors}}</span>
+  </div>
 {{/if}}
 {{! END QUOTA}}
