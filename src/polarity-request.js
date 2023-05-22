@@ -109,19 +109,17 @@ class PolarityRequest {
         if (statusCode === HTTP_CODE_BAD_REQUEST_400) {
           const message = response.body.substring(0, response.body.indexOf(' - '));
 
-          // if (message === 'Over Daily API Limit') {
-          //   return reject(
-          //     new ApiRequestError(
-          //       `Request Error: Check that your API key has not gone over the daily rate limit.`
-          //     )
-          //   );
-          // }
+          if (message === 'Over Daily API Limit') {
+            return reject(
+              new ApiRequestError(
+                `Request Error: Check that your API key has not gone over the daily rate limit.`
+              )
+            );
+          }
 
           return reject(
             new ApiRequestError(
-              `Request Error:
-                - Check that your API key has not gone over the daily rate limit.
-                - Or, check that the MXtoolbox URL is correct in the Polarity client user options.
+              `Request Error: Or, check that the MXtoolbox URL is correct in the Polarity client user options.
                 `,
               {
                 statusCode,
