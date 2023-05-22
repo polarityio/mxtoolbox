@@ -1,8 +1,8 @@
 module.exports = {
-  name: 'MxToolBox',
+  name: 'MxToolbox',
   acronym: 'MXT',
-  description: `Polarity's MxToolBox integration allows automated queries of MxToolBox 
-    services using IP Addresses, URLs, Domains, and Hashes.`,
+  description: `Polarity's MxToolbox integration allows automated queries of MxToolbox 
+    services using IP Addresses, URLs and Domains`,
   entityTypes: ['domain', 'ip', 'url'],
   styles: ['./styles/styles.less'],
   defaultColor: 'light-blue',
@@ -28,10 +28,10 @@ module.exports = {
   options: [
     {
       key: 'url',
-      name: 'MxToolBox URL',
+      name: 'MxToolBox API URL',
       description:
-        'URL for your MxToolBox instance.  The URL should include the scheme (https://).',
-      default: '',
+        'API URL for your MxToolBox instance.  The API URL should include the scheme (https://).  The default value is "https://api.mxtoolbox.com".',
+      default: 'https://api.mxtoolbox.com',
       type: 'text',
       userCanEdit: false,
       adminOnly: true
