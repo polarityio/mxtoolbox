@@ -87,7 +87,7 @@
 
 <div class="toggle-header">
   <span class="p-action" {{action "togglePassedResults"}}>
-    Passed Results
+    Passed Results ({{currentDisplayedData.Passed.length}})
     {{fa-icon (if passed "caret-up" "caret-down") fixedWidth=true}}
   </span>
 </div>
@@ -134,7 +134,7 @@
 
 <div class="toggle-header">
   <span class="p-action" {{action "toggleFailedResults" "failed"}}>
-    Failed Results
+    Failed Results ({{currentDisplayedData.Failed.length}})
     {{fa-icon (if failed "caret-up" "caret-down") fixedWidth=true}}
   </span>
 </div>
@@ -204,38 +204,38 @@
 {{/if}}
 
 {{! Warnings }}
-{{#if currentDisplayedData.Warnings.length}}
-  <div class="toggle-header">
-    <span class="p-action" {{action "toggleWarningResults"}}>
-      Warning Results
-      {{fa-icon (if warnings "caret-up" "caret-down") fixedWidth=true}}
-    </span>
-  </div>
-  {{#if warnings}}
-    {{#if currentDisplayedData.Warnings.length}}
-      {{#each currentDisplayedData.Warnings as |result|}}
-        <div class="failed-details">
-          {{#if result.Name}}
-            <div>
-              <span class="p-key"> Name: </span>
-              <span class="p-value">{{result.Name}}</span>
-            </div>
-          {{/if}}
-          {{#if result.Info}}
-            <div>
-              <span class="p-key"> Info: </span>
-              <span class="p-value">{{result.Info}}</span>
-            </div>
-          {{/if}}
-          {{#if result.Url}}
-            <div>
-              <span class="p-key"> Url: </span>
-              <span class="p-value">{{result.Url}}</span>
-            </div>
-          {{/if}}
-        </div>
-      {{/each}}
-    {{/if}}
+<div class="toggle-header">
+  <span class="p-action" {{action "toggleWarningResults"}}>
+    Warning Results ({{currentDisplayedData.Warnings.length}})
+    {{fa-icon (if warnings "caret-up" "caret-down") fixedWidth=true}}
+  </span>
+</div>
+{{#if warnings}}
+  {{#if currentDisplayedData.Warnings.length}}
+    {{#each currentDisplayedData.Warnings as |result|}}
+      <div class="failed-details">
+        {{#if result.Name}}
+          <div>
+            <span class="p-key"> Name: </span>
+            <span class="p-value">{{result.Name}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Info}}
+          <div>
+            <span class="p-key"> Info: </span>
+            <span class="p-value">{{result.Info}}</span>
+          </div>
+        {{/if}}
+        {{#if result.Url}}
+          <div>
+            <span class="p-key"> Url: </span>
+            <span class="p-value">{{result.Url}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{else}}
+    <span>No Warning Results</span>
   {{/if}}
 {{/if}}
 {{! End of warning }}

@@ -17,6 +17,7 @@ polarity.export = PolarityComponent.extend({
   }),
   passed: false,
   failed: false,
+  warnings: false,
   activeTab: '',
   init() {
     const keysList = ['mx', 'blacklist', 'http', 'https'];
@@ -33,15 +34,15 @@ polarity.export = PolarityComponent.extend({
     const currentData = this.get('currentDisplayedData');
 
     if (currentData.Passed.length <= 3) {
-      this.toggleProperty('passed');
+      this.set('passed', true);
     }
 
     if (currentData.Failed.length <= 3) {
-      this.toggleProperty('failed');
+      this.set('failed', true);
     }
 
     if (currentData.Warnings.length <= 3) {
-      this.toggleProperty('warnings');
+      this.set('warnings', true);
     }
 
     this._super(...arguments);
