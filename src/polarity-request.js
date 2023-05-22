@@ -117,7 +117,7 @@ class PolarityRequest {
             new ApiRequestError(
               `Request Error:
                 - Check that your API key has not gone over the daily rate limit.
-                - Or, check that the MXtoolBox URL is correct in the Polarity client user options.
+                - Or, check that the MXtoolbox URL is correct in the Polarity client user options.
                 `,
               {
                 statusCode,
