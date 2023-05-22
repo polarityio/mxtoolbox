@@ -31,7 +31,6 @@ polarity.export = PolarityComponent.extend({
     this.set('currentDisplayedData', this.get(defaultKey + 'Data'));
 
     const currentData = this.get('currentDisplayedData');
-    console.log(currentData);
 
     if (currentData.Passed.length <= 3) {
       this.toggleProperty('passed');
@@ -77,9 +76,12 @@ polarity.export = PolarityComponent.extend({
         }
       })
         .then((response) => {
-          console.log(response);
-          const quotaData = response[0].body;
-          this.set('quota', quotaData);
+          if (Array.isArray(response) && response.length > 0 && response[0].result) {
+            const quotaData = response[0].result.body;
+            this.set('quota', quotaData);
+          } else {
+            console.error('Unexpected Quota Response', response);
+          }
         })
         .catch((err) => {
           this.set('errorMessage', JSON.stringify(`${err.message}`));
