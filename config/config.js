@@ -27,16 +27,6 @@ module.exports = {
   },
   options: [
     {
-      key: 'url',
-      name: 'MxToolBox API URL',
-      description:
-        'API URL for your MxToolBox instance.  The API URL should include the scheme (https://).  The default value is "https://api.mxtoolbox.com".',
-      default: 'https://api.mxtoolbox.com',
-      type: 'text',
-      userCanEdit: false,
-      adminOnly: true
-    },
-    {
       key: 'apiKey',
       name: 'API Key for MxToolBox',
       description: 'User API Key for MxToolBox',

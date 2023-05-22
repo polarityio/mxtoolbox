@@ -23,7 +23,7 @@ const startup = (logger) => {
 async function doLookup(entities, options, cb) {
   const Logger = getLogger();
 
-  polarityRequest.setOptions(options);
+  polarityRequest.setOptions({ url: 'https://mxtoolbox.com', ...options });
   polarityRequest.setHeader({
     Authorization: options.apiKey
   });
@@ -79,16 +79,6 @@ async function onMessage(payload, options, cb) {
 
 function validateOptions(userOptions, cb) {
   const errors = [];
-
-  if (
-    typeof userOptions.url.value !== 'string' ||
-    (typeof userOptions.url.value === 'string' && userOptions.url.value.length === 0)
-  ) {
-    errors.push({
-      key: 'url',
-      message: 'You must provide a URL'
-    });
-  }
 
   if (
     typeof userOptions.apiKey.value !== 'string' ||

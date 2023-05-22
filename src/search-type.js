@@ -48,7 +48,15 @@ const ENTITY_TYPES = {
 };
 
 function findMatchingSources(entities) {
-  const dataSources = polarityRequest.options.dataSources.map(get('value'));
+  let dataSources = polarityRequest.options.dataSources.map(get('value'));
+
+  // Define all types
+  let types = ['mx', 'blacklist', 'http', 'https'];
+
+  // If dataSources is empty, use all types
+  if (dataSources.length === 0) {
+    dataSources = types;
+  }
 
   return entities.flatMap((entity) => {
     return dataSources.map((dataSource) => ({
@@ -69,7 +77,9 @@ function mapEntityType(entities) {
 
 function mergeResults(mockData) {
   return mockData.reduce((mergedData, data) => {
+    const Logger = getLogger();
     const command = data.result.body.Command;
+
     const existingData = mergedData.find(
       (merged) => merged.entity.value === data.entity.value
     );
