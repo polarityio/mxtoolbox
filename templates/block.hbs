@@ -48,6 +48,8 @@
 {{#if
   (or
     currentDisplayedData.MxRep
+    (eq currentDisplayData.MxRep 0)
+    currentDisplayedData.ReportingNameServer
     currentDisplayedData.EmailServiceProvider
     currentDisplayedData.DnsServiceProvider
     currentDisplayedData.DnsServiceProviderIdentifier
@@ -58,7 +60,7 @@
     Provider Info
   </h1>
   <div class="info">
-    {{#if currentDisplayedData.MxRep}}
+    {{#if (or currentDisplayedData.MxRep (eq currentDisplayedData.MxRep 0))}}
       <div>
         <span class="p-key"> MX Rep: </span>
         <span class="p-value">{{currentDisplayedData.MxRep}}</span>
@@ -68,6 +70,12 @@
       <div>
         <span class="p-key"> Email Service Provider: </span>
         <span class="p-value">{{currentDisplayedData.EmailServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if currentDisplayedData.ReportingNameServer}}
+      <div>
+        <span class="p-key"> Reporting Name Server: </span>
+        <span class="p-value">{{currentDisplayedData.ReportingNameServer}}</span>
       </div>
     {{/if}}
     {{#if currentDisplayedData.DnsServiceProvider}}
@@ -95,6 +103,11 @@
   {{#if currentDisplayedData.Passed.length}}
     {{#each currentDisplayedData.Passed as |result|}}
       <div class="passed-details">
+        {{#if result.Url}}
+          <div>
+            <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+          </div>
+        {{/if}}
         {{#if result.Name}}
           <div>
             <span class="p-key"> Name: </span>
@@ -104,19 +117,13 @@
         {{#if result.Info}}
           <div>
             <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> URL: </span>
-            <span class="p-value">{{result.Url}}</span>
+            <span class="p-value p-block">{{result.Info}}</span>
           </div>
         {{/if}}
         {{#if result.PublicDescription}}
           <div>
             <span class="p-key"> PublicDescription: </span>
-            <span class="p-value">{{result.PublicDescription}}</span>
+            <span class="p-value p-block">{{result.PublicDescription}}</span>
           </div>
         {{/if}}
         {{#if result.IsExcludedByUser}}
@@ -142,6 +149,11 @@
   {{#if currentDisplayedData.Failed.length}}
     {{#each currentDisplayedData.Failed as |result|}}
       <div class="failed-details">
+        {{#if result.Url}}
+          <div>
+            <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+          </div>
+        {{/if}}
         {{#if result.Name}}
           <div>
             <span class="p-key"> Name: </span>
@@ -151,13 +163,7 @@
         {{#if result.Info}}
           <div>
             <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> Url: </span>
-            <span class="p-value">{{result.Url}}</span>
+            <span class="p-value p-block">{{result.Info}}</span>
           </div>
         {{/if}}
         {{#if result.PublicDescription}}
@@ -174,26 +180,44 @@
         {{/if}}
         {{#if result.MxRep}}
           <div>
-            <span class="p-key"> MX Rep: </span>
+            <span class="p-key">MX Rep: </span>
             <span class="p-value">{{result.MxRep}}</span>
           </div>
         {{/if}}
         {{#if result.EmailServiceProvider}}
           <div>
-            <span class="p-key"> Email Service Provider: </span>
+            <span class="p-key">Email Service Provider: </span>
             <span class="p-value">{{result.EmailServiceProvider}}</span>
           </div>
         {{/if}}
         {{#if result.DnsServiceProvider}}
           <div>
-            <span class="p-key"> Dns Service Provider: </span>
+            <span class="p-key">DNS Service Provider: </span>
             <span class="p-value">{{result.DnsServiceProvider}}</span>
           </div>
         {{/if}}
         {{#if result.DnsServiceProviderIdentifier}}
           <div>
-            <span class="p-key"> Dns Service Provider Identifier: </span>
+            <span class="p-key">DNS Service Provider Identifier: </span>
             <span class="p-value">{{result.DnsServiceProviderIdentifier}}</span>
+          </div>
+        {{/if}}
+        {{#if result.BlacklistTTL}}
+          <div>
+            <span class="p-key">Blacklist TTL: </span>
+            <span class="p-value">{{result.BlacklistTTL}}</span>
+          </div>
+        {{/if}}
+        {{#if result.BlacklistReasonDescription}}
+          <div>
+            <span class="p-key">Blacklist Reason: </span>
+            <span class="p-value p-block">{{result.BlacklistReasonDescription}}</span>
+          </div>
+        {{/if}}
+        {{#if result.DelistUrl}}
+          <div>
+            <span class="p-key">Delist URL: </span>
+            <span class="p-value p-block">{{result.DelistUrl}}</span>
           </div>
         {{/if}}
       </div>
@@ -214,6 +238,11 @@
   {{#if currentDisplayedData.Warnings.length}}
     {{#each currentDisplayedData.Warnings as |result|}}
       <div class="failed-details">
+        {{#if result.Url}}
+          <div>
+            <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+          </div>
+        {{/if}}
         {{#if result.Name}}
           <div>
             <span class="p-key"> Name: </span>
@@ -223,13 +252,7 @@
         {{#if result.Info}}
           <div>
             <span class="p-key"> Info: </span>
-            <span class="p-value">{{result.Info}}</span>
-          </div>
-        {{/if}}
-        {{#if result.Url}}
-          <div>
-            <span class="p-key"> Url: </span>
-            <span class="p-value">{{result.Url}}</span>
+            <span class="p-value p-block">{{result.Info}}</span>
           </div>
         {{/if}}
       </div>
