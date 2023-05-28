@@ -28,8 +28,8 @@ module.exports = {
   options: [
     {
       key: 'apiKey',
-      name: 'API Key for MxToolBox',
-      description: 'User API Key for MxToolBox',
+      name: 'API Key for MxToolbox',
+      description: 'User API Key for MxToolbox',
       default: '',
       type: 'password',
       userCanEdit: false,
@@ -39,7 +39,7 @@ module.exports = {
       key: 'dataSources',
       name: 'Data Sources',
       description:
-        'Select the data sources you would like to use for the MxToolBox integration.  If no data sources are selected, all data sources will be used.',
+        'Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.',
       default: [
         {
           value: 'mx',
@@ -79,7 +79,7 @@ module.exports = {
       ],
       multiple: true,
       userCanEdit: false,
-      adminOnly: false
+      adminOnly: true
     }
   ]
 };
