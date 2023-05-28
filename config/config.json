@@ -1,4 +1,5 @@
 {
+  "polarityIntegrationUuid": "5aaeedf0-def9-11ed-9257-d7644e95435e",
   "name": "MxToolbox",
   "acronym": "MXT",
   "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox \n    services using IP Addresses, URLs and Domains",
