@@ -1,10 +1,15 @@
 {
-  "polarityIntegrationUuid": "5aaeedf0-def9-11ed-9257-d7644e95435e",
   "name": "MxToolbox",
   "acronym": "MXT",
-  "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox services using IP Addresses, URLs and Domains",
-  "entityTypes": ["domain", "ip", "url"],
-  "styles": ["./styles/styles.less"],
+  "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox \n    services using IP Addresses, URLs and Domains",
+  "entityTypes": [
+    "domain",
+    "ip",
+    "url"
+  ],
+  "styles": [
+    "./styles/styles.less"
+  ],
   "defaultColor": "light-blue",
   "block": {
     "component": {
@@ -27,18 +32,9 @@
   },
   "options": [
     {
-      "key": "url",
-      "name": "MxToolBox API URL",
-      "description": "API URL for your MxToolBox instance.  The API URL should include the scheme (https://).  The default value is \"https://api.mxtoolbox.com\".",
-      "default": "https://api.mxtoolbox.com",
-      "type": "text",
-      "userCanEdit": false,
-      "adminOnly": true
-    },
-    {
       "key": "apiKey",
-      "name": "API Key for MxToolBox",
-      "description": "User API Key for MxToolBox",
+      "name": "API Key for MxToolbox",
+      "description": "User API Key for MxToolbox",
       "default": "",
       "type": "password",
       "userCanEdit": false,
@@ -47,7 +43,7 @@
     {
       "key": "dataSources",
       "name": "Data Sources",
-      "description": "Select the data sources you would like to use for the MxToolBox integration.  If no data sources are selected, all data sources will be used.",
+      "description": "Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.",
       "default": [
         {
           "value": "mx",
@@ -87,7 +83,7 @@
       ],
       "multiple": true,
       "userCanEdit": false,
-      "adminOnly": false
+      "adminOnly": true
     }
   ]
 }
