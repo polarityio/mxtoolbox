@@ -1,24 +1,34 @@
-<!-- # Polarity Zscalar Integration
+# Polarity MxToolbox Integration
 
-![image](https://img.shields.io/badge/status-beta-green.svg)
+MxToolbox is a web-based tool that provides a suite of free and paid network diagnostic and monitoring services.The platform provides comprehensive analysis and reports to help users identify and troubleshoot problems.
 
-Zscalar is a customizable, secure, and drop-in solution to add authentication and authorization services to your applications. The Polarity Zscalar integration allows you to search for Zscalar users by email address.
+Polarity's MxToolbox integration allows automated queries of MxToolbox services using IP Addresses, URLs and Domains.
 
-To learn more about Zscalar, visit the [official website](https://www.Zscalar.com/).
+To learn more about MxToolbox, visit the [official website](https://mxtoolbox.com/).
 
-## Zscalar Integration Options
+<img src="images/overlay.png" width="50%">
 
-### Zscalar URL
+## Using a free MxToolbox account
 
-Your URL to access an Zscalar API instance.
+If you are using a free MxToolbox account you will need to disable IP and URL lookups under the "Manage Integration Data" option as free accounts only support `MX` and `Blacklist` lookups on domains.
 
-### Zscalar API Token
+## MxToolBox Integration Options
 
-Your token issued by the authorization server (Zscalar).
+### MxToolBox API Token
 
-## Default Domains to Search
+The API Token associated with your MxToolBox account.
 
-Enter a comma delimited list of domains that will be searched when doing email lookups in Zscalar. If left blank, all email addresses will be searched.
+> If you are using a free MxToolBox account you will only be able to run `mx` and `blacklist` lookups on domains.  IP and URL lookups will return an error indicating that you have reached your lookup limit.
+
+### Data Sources
+
+Select the data sources you would like to use for the MxToolBox integration. If no data sources are selected, all data sources will be used. Below is a table of the data sources that are searched for each entity type:
+
+| Entity Type | Data Sources           |
+| ----------- | ---------------------- |
+| domain      | mx, blacklist          |
+| ip          | blacklist, http, https |
+| url         | http, https            |
 
 ## Installation Instructions
 
@@ -28,4 +38,4 @@ Installation instructions for integrations are provided on the [PolarityIO GitHu
 
 Polarity is a memory-augmentation platform that improves and accelerates analyst decision making. For more information about the Polarity platform please see:
 
-https://polarity.io/ -->
+https://polarity.io/

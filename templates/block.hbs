@@ -1,0 +1,387 @@
+<ul class="nav nav-tabs mt-2">
+  {{#if details.mx}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "mx"}}
+        class="nav-link {{if (or (eq activeTab 'mx') (not activeTab)) 'active'}}"
+        href="#"
+      >
+        MX
+      </a>
+    </li>
+  {{/if}}
+  {{#if details.blacklist}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "blacklist"}}
+        class="nav-link {{if (or (eq activeTab 'blacklist') (not activeTab)) 'active'}}"
+        href="#"
+      >
+        Blacklist
+      </a>
+    </li>
+  {{/if}}
+  {{#if details.https}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "https"}}
+        class="nav-link {{if (eq activeTab 'https') 'active'}}"
+        href="#"
+      >
+        HTTPS
+      </a>
+    </li>
+  {{/if}}
+  {{#if details.http}}
+    <li class="nav-item">
+      <a
+        {{action "changeTab" "http"}}
+        class="nav-link {{if (eq activeTab 'http') 'active'}}"
+        href="#"
+      >
+        HTTP
+      </a>
+    </li>
+  {{/if}}
+</ul>
+
+{{#if
+  (or
+    currentDisplayedData.MxRep
+    (eq currentDisplayedData.MxRep 0)
+    currentDisplayedData.ReportingNameServer
+    currentDisplayedData.EmailServiceProvider
+    currentDisplayedData.DnsServiceProvider
+    currentDisplayedData.DnsServiceProviderIdentifier
+  )
+}}
+  <h1 class="p-title">
+    {{fa-icon "info" fixedWidth=true}}
+    Provider Info
+  </h1>
+  <div class="info">
+    {{#if (or currentDisplayedData.MxRep (eq currentDisplayedData.MxRep 0))}}
+      <div>
+        <span class="p-key"> MX Rep: </span>
+        <span class="p-value">{{currentDisplayedData.MxRep}}</span>
+      </div>
+    {{/if}}
+    {{#if currentDisplayedData.EmailServiceProvider}}
+      <div>
+        <span class="p-key"> Email Service Provider: </span>
+        <span class="p-value">{{currentDisplayedData.EmailServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if currentDisplayedData.ReportingNameServer}}
+      <div>
+        <span class="p-key"> Reporting Name Server: </span>
+        <span class="p-value">{{currentDisplayedData.ReportingNameServer}}</span>
+      </div>
+    {{/if}}
+    {{#if currentDisplayedData.DnsServiceProvider}}
+      <div>
+        <span class="p-key"> DNS Service Provider: </span>
+        <span class="p-value">{{currentDisplayedData.DnsServiceProvider}}</span>
+      </div>
+    {{/if}}
+    {{#if currentDisplayedData.DnsServiceProviderIdentifier}}
+      <div>
+        <span class="p-key"> DNS Service Provider Identifier: </span>
+        <span class="p-value">{{currentDisplayedData.DnsServiceProviderIdentifier}}</span>
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
+
+{{#let (get block._state (concat activeTab ".passed")) as | isOpen |}}
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleSection" "passed"}}>
+      Passed Results ({{currentDisplayedData.Passed.length}})
+      {{fa-icon (if isOpen "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+  {{#if isOpen}}
+    {{#if currentDisplayedData.Passed.length}}
+      <div class="scrollable-container">
+        {{#each currentDisplayedData.Passed as |result|}}
+          <div class="passed-details">
+            {{#if result.Url}}
+              <div>
+                <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+              </div>
+            {{/if}}
+            {{#if result.Name}}
+              <div>
+                <span class="p-key"> Name: </span>
+                <span class="p-value">{{result.Name}}</span>
+              </div>
+            {{/if}}
+            {{#if result.Info}}
+              <div>
+                <span class="p-key"> Info: </span>
+                <span class="p-value p-block">{{result.Info}}</span>
+              </div>
+            {{/if}}
+            {{#if result.PublicDescription}}
+              <div>
+                <span class="p-key"> PublicDescription: </span>
+                <span class="p-value p-block">{{result.PublicDescription}}</span>
+              </div>
+            {{/if}}
+            {{#if result.IsExcludedByUser}}
+              <div>
+                <span class="p-key"> IsExcludedByUser: </span>
+                <span class="p-value">{{result.IsExcludedByUser}}</span>
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <span> No Passed Results</span>
+    {{/if}}
+  {{/if}}
+{{/let}}
+
+{{! Failed }}
+{{#let (get block._state (concat activeTab ".failed")) as | isOpen |}}
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleSection" "failed"}}>
+      Failed Results ({{currentDisplayedData.Failed.length}})
+      {{fa-icon (if isOpen "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if isOpen}}
+    {{#if currentDisplayedData.Failed.length}}
+      <div class="scrollable-container">
+        {{#each currentDisplayedData.Failed as |result|}}
+          <div class="failed-details">
+            {{#if result.Url}}
+              <div>
+                <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+              </div>
+            {{/if}}
+            {{#if result.Name}}
+              <div>
+                <span class="p-key"> Name: </span>
+                <span class="p-value">{{result.Name}}</span>
+              </div>
+            {{/if}}
+            {{#if result.Info}}
+              <div>
+                <span class="p-key"> Info: </span>
+                <span class="p-value p-block">{{result.Info}}</span>
+              </div>
+            {{/if}}
+            {{#if result.PublicDescription}}
+              <div>
+                <span class="p-key"> PublicDescription: </span>
+                <span class="p-value">{{result.PublicDescription}}</span>
+              </div>
+            {{/if}}
+            {{#if result.IsExcludedByUser}}
+              <div>
+                <span class="p-key"> IsExcludedByUser: </span>
+                <span class="p-value">{{result.IsExcludedByUser}}</span>
+              </div>
+            {{/if}}
+            {{#if result.MxRep}}
+              <div>
+                <span class="p-key">MX Rep: </span>
+                <span class="p-value">{{result.MxRep}}</span>
+              </div>
+            {{/if}}
+            {{#if result.EmailServiceProvider}}
+              <div>
+                <span class="p-key">Email Service Provider: </span>
+                <span class="p-value">{{result.EmailServiceProvider}}</span>
+              </div>
+            {{/if}}
+            {{#if result.DnsServiceProvider}}
+              <div>
+                <span class="p-key">DNS Service Provider: </span>
+                <span class="p-value">{{result.DnsServiceProvider}}</span>
+              </div>
+            {{/if}}
+            {{#if result.DnsServiceProviderIdentifier}}
+              <div>
+                <span class="p-key">DNS Service Provider Identifier: </span>
+                <span class="p-value">{{result.DnsServiceProviderIdentifier}}</span>
+              </div>
+            {{/if}}
+            {{#if result.BlacklistTTL}}
+              <div>
+                <span class="p-key">Blacklist TTL: </span>
+                <span class="p-value">{{result.BlacklistTTL}}</span>
+              </div>
+            {{/if}}
+            {{#if result.BlacklistReasonDescription}}
+              <div>
+                <span class="p-key">Blacklist Reason: </span>
+                <span class="p-value p-block">{{result.BlacklistReasonDescription}}</span>
+              </div>
+            {{/if}}
+            {{#if result.DelistUrl}}
+              <div>
+                <span class="p-key">Delist URL: </span>
+                <span class="p-value p-block">{{result.DelistUrl}}</span>
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <span>No Failed Results</span>
+    {{/if}}
+  {{/if}}
+{{/let}}
+{{! End of Failed }}
+
+{{! Warnings }}
+{{#let (get block._state (concat activeTab ".warnings")) as | isOpen |}}
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleSection" "warnings"}}>
+      Warning Results ({{currentDisplayedData.Warnings.length}})
+      {{fa-icon (if isOpen "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if isOpen}}
+    {{#if currentDisplayedData.Warnings.length}}
+      <div class="scrollable-container">
+        {{#each currentDisplayedData.Warnings as |result|}}
+        <div class="failed-details">
+          {{#if result.Url}}
+            <div>
+              <a href="{{result.Url}}">View in MxToolbox {{fa-icon icon="external-link-square" fixedWidth=true class="external-link"}}</a>
+            </div>
+          {{/if}}
+          {{#if result.Name}}
+            <div>
+              <span class="p-key"> Name: </span>
+              <span class="p-value">{{result.Name}}</span>
+            </div>
+          {{/if}}
+          {{#if result.Info}}
+            <div>
+              <span class="p-key"> Info: </span>
+              <span class="p-value p-block">{{result.Info}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+      </div>
+    {{else}}
+      <span>No Warning Results</span>
+    {{/if}}
+  {{/if}}
+{{/let}}
+{{! End of Warnings }}
+
+{{! Information }}
+{{#let (get block._state (concat activeTab ".information")) as | isOpen |}}
+  <div class="toggle-header">
+    <span class="p-action" {{action "toggleSection" "information"}}>
+      Information Results ({{currentDisplayedData.Information.length}})
+      {{fa-icon (if isOpen "caret-up" "caret-down") fixedWidth=true}}
+    </span>
+  </div>
+
+  {{#if isOpen}}
+    {{#if currentDisplayedData.Information.length}}
+      <div class="scrollable-container">
+        {{#each currentDisplayedData.Information as |result index|}}
+          <div class="information-details">
+            {{#if result.Name}}
+              <div class="p-title {{if (eq index 0) "mt-0"}}">{{fa-icon icon="globe" fixedWidth=true}} {{result.Name}}</div>
+            {{else}}
+              <div class="p-title {{if (eq index 0) "mt-0"}}">{{fa-icon icon="globe" fixedWidth=true}} No Name Available</div>
+            {{/if}}
+            {{#if result.Status}}
+              <div>
+                <span class="p-key">Status: </span>
+                <span class="p-value">{{result.Status}}</span>
+              </div>
+            {{/if}}
+            {{#if (get result "Valid From")}}
+              <div>
+                <span class="p-key">Valid From: </span>
+                <span class="p-value">{{get result "Valid From"}}</span>
+              </div>
+            {{/if}}
+            {{#if (get result "Valid To")}}
+              <div>
+                <span class="p-key">Valid To: </span>
+                <span class="p-value">{{get result "Valid To"}}</span>
+              </div>
+            {{/if}}
+            {{#if result.Subject}}
+              <div>
+                <span class="p-key">Subject: </span>
+                <span class="p-value">{{result.Subject}}</span>
+              </div>
+            {{/if}}
+            {{#if result.SubjectData}}
+              <div>
+                <span class="p-key">Subject Data: </span>
+                <span class="p-value">{{result.SubjectData}}</span>
+              </div>
+            {{/if}}
+            {{#if result.Primary}}
+              <div>
+                <span class="p-key">Primary: </span>
+                <span class="p-value">{{result.Primary}}</span>
+              </div>
+            {{/if}}
+            {{#if result.Issuer}}
+              <div>
+                <span class="p-key">Issuer: </span>
+                <span class="p-value">{{result.Issuer}}</span>
+              </div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <span>No Information Results</span>
+    {{/if}}
+  {{/if}}
+{{/let}}
+{{! End of information }}
+
+{{! QUOTA }}
+<div class="quota-header">
+  <span class="p-action" {{action "toggleQuota"}}>
+    Remaining Daily Requests
+    {{fa-icon (if showQuota "caret-up" "caret-down") fixedWidth=true}}
+  </span>
+</div>
+
+{{#if (and showQuota quota)}}
+  <div>
+    <span class="p-key"> DNS Request: </span>
+    <span class="p-value">{{quota.DnsRequests}}</span>
+  </div>
+  <div>
+    <span class="p-key"> DNS Max: </span>
+    <span class="p-value">{{quota.DnsMax}}</span>
+  </div>
+  <div>
+    <span class="p-key"> DNS Overage Errors: </span>
+    <span class="p-value">{{quota.DnsOverageErrors}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Requests: </span>
+    <span class="p-value">{{quota.NetworkRequests}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Max: </span>
+    <span class="p-value">{{quota.NetworkMax}}</span>
+  </div>
+  <div>
+    <span class="p-key"> Network Overage Errors: </span>
+    <span class="p-value">{{quota.NetworkOverageErrors}}</span>
+  </div>
+{{/if}}
+{{! END QUOTA}}

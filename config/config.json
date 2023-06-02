@@ -1,0 +1,90 @@
+{
+  "polarityIntegrationUuid": "5aaeedf0-def9-11ed-9257-d7644e95435e",
+  "name": "MxToolbox",
+  "acronym": "MXT",
+  "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox \n    services using IP Addresses, URLs and Domains",
+  "entityTypes": [
+    "domain",
+    "ip",
+    "url"
+  ],
+  "styles": [
+    "./styles/styles.less"
+  ],
+  "defaultColor": "light-blue",
+  "block": {
+    "component": {
+      "file": "./components/block.js"
+    },
+    "template": {
+      "file": "./templates/block.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "info"
+  },
+  "options": [
+    {
+      "key": "apiKey",
+      "name": "API Key for MxToolbox",
+      "description": "User API Key for MxToolbox",
+      "default": "",
+      "type": "password",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "dataSources",
+      "name": "Data Sources",
+      "description": "Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.",
+      "default": [
+        {
+          "value": "mx",
+          "display": "mx"
+        },
+        {
+          "value": "blacklist",
+          "display": "blacklist"
+        },
+        {
+          "value": "http",
+          "display": "http"
+        },
+        {
+          "value": "https",
+          "display": "https"
+        }
+      ],
+      "type": "select",
+      "options": [
+        {
+          "value": "mx",
+          "display": "mx"
+        },
+        {
+          "value": "blacklist",
+          "display": "blacklist"
+        },
+        {
+          "value": "http",
+          "display": "http"
+        },
+        {
+          "value": "https",
+          "display": "https"
+        }
+      ],
+      "multiple": true,
+      "userCanEdit": false,
+      "adminOnly": true
+    }
+  ]
+}
