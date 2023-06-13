@@ -56,7 +56,7 @@ function createSummary(apiResponse) {
     (get('https.Warnings.length', apiResponse) || 0);
 
   return [
-    `Passed: ${passedCountTotal} Failed: ${failedCountTotal} Warnings: ${warningCountTotal}`
+    `Passed: ${passedCountTotal} ◾ Failed: ${failedCountTotal} ◾ Warnings: ${warningCountTotal}`
   ];
 }
 
