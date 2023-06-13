@@ -5,7 +5,7 @@
   "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox \n    services using IP Addresses, URLs and Domains",
   "entityTypes": [
     "domain",
-    "ip",
+    "IP",
     "url"
   ],
   "styles": [
