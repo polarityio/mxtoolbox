@@ -1,12 +1,51 @@
 const { polarityRequest } = require('./polarity-request');
 const { getLogger } = require('./logger');
 const { get } = require('lodash/fp');
+const _ = require('lodash');
+
+function _isEntityBlocked(entity, options) {
+  const ipBlocklistRegex = options.ipBlocklistRegex
+    ? new RegExp(options.ipBlocklistRegex)
+    : null;
+
+  const domainUrlBlocklistRegex = options.domainUrlBlocklistRegex
+    ? new RegExp(options.domainUrlBlocklistRegex)
+    : null;
+
+  if (
+    entity.isIP &&
+    !entity.isPrivateIP &&
+    ipBlocklistRegex &&
+    ipBlocklistRegex.test(entity.value)
+  ) {
+    return true;
+  }
+
+  if (
+    entity.isDomain &&
+    domainUrlBlocklistRegex &&
+    domainUrlBlocklistRegex.test(entity.value)
+  ) {
+    return true;
+  }
+
+  if (entity.isURL && domainUrlBlocklistRegex) {
+    const urlObj = new URL(entity.value);
+    const hostname = urlObj.hostname;
+    if (domainUrlBlocklistRegex.test(hostname)) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 async function searchType(entities) {
   const Logger = getLogger();
-  const transformedEntities = mapEntityType(entities);
 
+  const transformedEntities = mapEntityType(entities);
   const entitiesWithSource = findMatchingSources(transformedEntities);
+
   Logger.trace({ entitiesWithSource }, 'entitiesWithSource');
 
   const requestOptions = entitiesWithSource
@@ -16,8 +55,8 @@ async function searchType(entities) {
       method: 'GET',
       path: `/api/v1/Lookup/${obj.dataSource}/?argument=${obj.entity.value}`
     }));
-  Logger.trace({ requestOptions }, 'requestOptions here');
 
+  Logger.trace({ requestOptions }, 'requestOptions here');
   const response = await polarityRequest.send(requestOptions);
   /* 
     This is a hack to remove null values from the response array
@@ -48,6 +87,8 @@ const ENTITY_TYPES = {
 };
 
 function findMatchingSources(entities) {
+  const Logger = getLogger();
+  Logger.trace({ entities }, 'findMatchingSources');
   let dataSources = polarityRequest.options.dataSources.map(get('value'));
 
   // Define all types
@@ -59,12 +100,12 @@ function findMatchingSources(entities) {
   }
 
   return entities.flatMap((entity) => {
-    return dataSources.map((dataSource) => ({
-      entity,
-      dataSource: ENTITY_TYPES[entity.transformedType].includes(dataSource)
-        ? dataSource
-        : null
-    }));
+    if (_isEntityBlocked(entity, polarityRequest.options)) {
+      return types.map((type) => ({
+        entity,
+        dataSource: ENTITY_TYPES[entity.transformedType].includes(type) ? type : null
+      }));
+    }
   });
 }
 
