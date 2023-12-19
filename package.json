@@ -1,5 +1,5 @@
 {
-  "name": "logscale",
+  "name": "mxtoolbox",
   "version": "3.0.2",
   "main": "./integration.js",
   "private": true,

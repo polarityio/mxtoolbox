@@ -91,8 +91,8 @@ class PolarityRequest {
 
     return new Promise((resolve, reject) => {
       this.requestWithDefaults(requestOptions, async (err, response) => {
+        Logger.trace({ err, response }, 'Request Response');
         const statusCode = response.statusCode;
-        Logger.trace({ statusCode }, 'Status Code');
 
         if (
           statusCode === HTTP_CODE_SUCCESS_200 ||
@@ -101,6 +101,7 @@ class PolarityRequest {
         ) {
           return resolve({ ...response, requestOptions });
         }
+
         /*
           The MXToolBox API will return a 400 if the API key has gone over the daily rate limit. 
           example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
@@ -181,8 +182,6 @@ class PolarityRequest {
   }
 
   async runRequestsInParallel(requestOptions, limit = 10) {
-    const Logger = getLogger();
-
     if (!Array.isArray(requestOptions)) {
       requestOptions = [requestOptions];
     }
@@ -190,7 +189,6 @@ class PolarityRequest {
     const unexecutedRequestFunctions = map(
       ({ entity, ...singleRequestOptions }) =>
         async () => {
-          Logger.trace({ ...singleRequestOptions }, 'OPTS');
           const result = await this.request(singleRequestOptions);
           return result ? { entity, result } : result;
         },

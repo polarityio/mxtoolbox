@@ -1,7 +1,8 @@
 module.exports = {
-  name: 'LogScale',
-  acronym: 'LGS',
-  description: `LogScale is a log management platform that allows you to collect, index, search, and analyze machine-generated data from any source, any format, and any scale.`,
+  name: 'MxToolbox',
+  acronym: 'MXT',
+  description: `Polarity's MxToolbox integration allows automated queries of MxToolbox 
+    services using IP Addresses, URLs and Domains`,
   entityTypes: ['domain', 'IP', 'url'],
   styles: ['./styles/styles.less'],
   defaultColor: 'light-blue',
@@ -18,28 +19,64 @@ module.exports = {
     key: '',
     passphrase: '',
     ca: '',
-    proxy: ''
+    proxy: ""
   },
   logging: {
-    level: 'trace' //trace, debug, info, warn, error, fatal
+    level: 'info' //trace, debug, info, warn, error, fatal
   },
   options: [
     {
-      key: 'url',
-      name: 'LogScale URL',
-      description: 'URl for the LogScale API.',
+      key: 'apiKey',
+      name: 'API Key for MxToolbox',
+      description: 'User API Key for MxToolbox',
       default: '',
-      type: 'text',
+      type: 'password',
       userCanEdit: false,
       adminOnly: true
     },
     {
-      key: 'repositories',
-      name: 'LogScale Repositories',
+      key: 'dataSources',
+      name: 'Data Sources',
       description:
-        "Comma separated list of repositories with associated tokens, e.g. 'repo1:token1,repo2:token2'. TIP: Use the view icon to the left to revel text.",
-      default: '',
-      type: 'password',
+        'Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.',
+      default: [
+        {
+          value: 'mx',
+          display: 'mx'
+        },
+        {
+          value: 'blacklist',
+          display: 'blacklist'
+        },
+        {
+          value: 'http',
+          display: 'http'
+        },
+        {
+          value: 'https',
+          display: 'https'
+        }
+      ],
+      type: 'select',
+      options: [
+        {
+          value: 'mx',
+          display: 'mx'
+        },
+        {
+          value: 'blacklist',
+          display: 'blacklist'
+        },
+        {
+          value: 'http',
+          display: 'http'
+        },
+        {
+          value: 'https',
+          display: 'https'
+        }
+      ],
+      multiple: true,
       userCanEdit: false,
       adminOnly: true
     }
