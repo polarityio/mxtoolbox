@@ -113,8 +113,6 @@ async function searchType(entities) {
     .value();
 
   Logger.trace({ requestOptions }, 'requestOptions here');
-
-  Logger.trace({ requestOptions }, 'requestOptions here');
   const response = await polarityRequest.send(requestOptions);
   /* 
     This is a hack to remove null values from the response array
