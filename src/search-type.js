@@ -100,8 +100,12 @@ async function searchType(entities) {
   const transformedEntities = mapEntityType(entities);
   Logger.trace({ transformedEntities }, 'transformedEntities');
   const entitiesWithSource = findMatchingSources(transformedEntities);
-
   Logger.trace({ entitiesWithSource }, 'entitiesWithSource');
+
+  // All entities were filtered out by blocklists
+  if (entitiesWithSource.length === 0) {
+    return [];
+  }
 
   const requestOptions = _.chain(entitiesWithSource)
     .filter((obj) => obj && obj.dataSource)
@@ -115,11 +119,11 @@ async function searchType(entities) {
   Logger.trace({ requestOptions }, 'requestOptions here');
   const response = await polarityRequest.send(requestOptions);
   /* 
-    This is a hack to remove null values from the response array
-    this is because there are multiple requests being made, and the integration
-    shouldn't throw an error if one of the requests fails, so it resolves with null and
-    we need to filter those out
-  */
+          This is a hack to remove null values from the response array
+          this is because there are multiple requests being made, and the integration
+          shouldn't throw an error if one of the requests fails, so it resolves with null and
+          we need to filter those out
+        */
   const filteredResponse = response.filter((obj) => obj != null);
   Logger.trace({ filteredResponse }, 'get response');
 
@@ -136,7 +140,7 @@ const ENTITY_TYPE_MAP = {
   url: 'url'
 };
 
-const ENTITY_TYPES = {
+const ENTITY_TYPE_TO_DATASOURCES = {
   domain: ['mx', 'blacklist'],
   ip: ['blacklist', 'http', 'https'],
   url: ['http', 'https']
@@ -155,17 +159,23 @@ function findMatchingSources(entities) {
     dataSources = types;
   }
 
-  return entities.flatMap((entity) => {
+  return entities.reduce((acc, entity) => {
     if (
-      !_isIpBlocked(entity, polarityRequest.options) ||
+      !_isIpBlocked(entity, polarityRequest.options) &&
       !_isDomainBlocked(entity, polarityRequest.options)
     ) {
-      return types.map((type) => ({
-        entity,
-        dataSource: ENTITY_TYPES[entity.transformedType].includes(type) ? type : []
-      }));
+      const datasourcesForEntityType = ENTITY_TYPE_TO_DATASOURCES[entity.transformedType];
+      dataSources.forEach((dataSource) => {
+        if (datasourcesForEntityType.includes(dataSource)) {
+          acc.push({
+            entity,
+            dataSource
+          });
+        }
+      });
     }
-  });
+    return acc;
+  }, []);
 }
 
 function mapEntityType(entities) {
