@@ -13,6 +13,7 @@ const startup = (logger) => {
   Logger = logger;
   setLogger(Logger);
 };
+
 /**
  * @param entities
  * @param options
@@ -30,7 +31,7 @@ async function doLookup(entities, options, cb) {
 
   try {
     const responses = await searchType(entities);
-    Logger.trace({ responses }, 'lookupResults');
+    Logger.trace({ responses }, 'Search Responses');
 
     const lookupResults = map((response) => {
       return new PolarityResult().createResultsObject(response);

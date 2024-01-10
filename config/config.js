@@ -19,7 +19,7 @@ module.exports = {
     key: '',
     passphrase: '',
     ca: '',
-    proxy: ""
+    proxy: ''
   },
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
@@ -38,7 +38,7 @@ module.exports = {
       key: 'dataSources',
       name: 'Data Sources',
       description:
-        'Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.',
+          'Select the data sources you would like to use for the MxToolbox integration.  If no data sources are selected, all data sources will be used.',
       default: [
         {
           value: 'mx',
@@ -77,6 +77,37 @@ module.exports = {
         }
       ],
       multiple: true,
+      userCanEdit: false,
+      adminOnly: true
+    },
+    {
+      key: 'blocklist',
+      name: 'Indicator Blocklist',
+      description:
+        'Comma delimited list of indicators you do not want looked up.  List is an exact match (URL matches require the scheme).  This option must be set to "Only Admins Can View and Edit".',
+      default: '',
+      type: 'text',
+      userCanEdit: false,
+      adminOnly: true
+    },
+    {
+      key: 'domainUrlBlocklistRegex',
+      name: 'Domain and URL Blocklist Regex',
+      description:
+        'Domains or URLs that match the given regex will not be looked up (if blank, all domains and URLS will be looked up).  Note that the regex does not need to account for the scheme for URLs (i.e., the regex will match against the domain and subdomain of the URL. Do not wrap your regex in forward slashes. This option must be set to "Only Admins Can View and Edit".',
+      default: '',
+      type: 'text',
+      userCanEdit: false,
+      adminOnly: true
+    },
+
+    {
+      key: 'ipBlocklistRegex',
+      name: 'IP Blocklist Regex',
+      description:
+        'IPs that match the given regex will not be looked up (if blank, all IPs will be looked up).  Do not wrap your regex in forward slashes. This option must be set to "Only Admins Can View and Edit".',
+      default: '',
+      type: 'text',
       userCanEdit: false,
       adminOnly: true
     }
