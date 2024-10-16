@@ -1,6 +1,6 @@
 {
   "name": "mxtoolbox",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "main": "./integration.js",
   "private": true,
   "license": "MIT",
@@ -8,6 +8,6 @@
   "dependencies": {
     "async": "^3.2.4",
     "lodash": "^4.17.21",
-    "postman-request": "^2.88.1-postman.32"
+    "postman-request": "^2.88.1-postman.33"
   }
 }
