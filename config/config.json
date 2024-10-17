@@ -3,14 +3,8 @@
   "name": "MxToolbox",
   "acronym": "MXT",
   "description": "Polarity's MxToolbox integration allows automated queries of MxToolbox \n    services using IP Addresses, URLs and Domains",
-  "entityTypes": [
-    "domain",
-    "IP",
-    "url"
-  ],
-  "styles": [
-    "./styles/styles.less"
-  ],
+  "entityTypes": ["domain", "IPv4", "IPv6", "url"],
+  "styles": ["./styles/styles.less"],
   "defaultColor": "light-blue",
   "block": {
     "component": {
@@ -19,13 +13,6 @@
     "template": {
       "file": "./templates/block.hbs"
     }
-  },
-  "request": {
-    "cert": "",
-    "key": "",
-    "passphrase": "",
-    "ca": "",
-    "proxy": ""
   },
   "logging": {
     "level": "info"
