@@ -119,11 +119,11 @@ async function searchType(entities) {
   Logger.trace({ requestOptions }, 'requestOptions here');
   const response = await polarityRequest.send(requestOptions);
   /* 
-          This is a hack to remove null values from the response array
-          this is because there are multiple requests being made, and the integration
-          shouldn't throw an error if one of the requests fails, so it resolves with null and
-          we need to filter those out
-        */
+    This is a hack to remove null values from the response array
+    this is because there are multiple requests being made, and the integration
+    shouldn't throw an error if one of the requests fails, so it resolves with null and
+    we need to filter those out
+  */
   const filteredResponse = response.filter((obj) => obj != null);
   Logger.trace({ filteredResponse }, 'get response');
 
