@@ -7,7 +7,6 @@ const {
 } = require('../config/config.js');
 const { map } = require('lodash/fp');
 const { parallelLimit } = require('async');
-const { log } = require('console');
 
 const _configFieldIsValid = (field) => typeof field === 'string' && field.length > 0;
 
@@ -43,6 +42,7 @@ class PolarityRequest {
     this.MAX_RETRIES = 0;
     this.currentRetries = 0;
   }
+
   /**
    * Set header `field` to `val`, or pass
    * an object of header fields.
@@ -71,6 +71,7 @@ class PolarityRequest {
   setOptions(options) {
     this.options = options;
   }
+
   /**
    * Makes a request network request using postman-request.  If the request is an array, it will run the requests in parallel.
    * @param requestOptions  - the request options to pass to postman-request. It will either being an array of requests or a single request.
@@ -91,7 +92,15 @@ class PolarityRequest {
 
     return new Promise((resolve, reject) => {
       this.requestWithDefaults(requestOptions, async (err, response) => {
-        Logger.trace({ err, response }, 'Request Response');
+        if (err) {
+          Logger.error(err, 'Request Error');
+          return reject(
+            new NetworkError(`Network Error${err.code ? ': ' + err.code : ''}`, {
+              cause: err
+            })
+          );
+        }
+        Logger.trace({ response }, 'Request Response');
         const statusCode = response.statusCode;
 
         if (
@@ -103,9 +112,9 @@ class PolarityRequest {
         }
 
         /*
-          The MXToolBox API will return a 400 if the API key has gone over the daily rate limit. 
-          example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
-         */
+        The MXToolBox API will return a 400 if the API key has gone over the daily rate limit. 
+        example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
+        */
         if (statusCode === HTTP_CODE_BAD_REQUEST_400) {
           const message = response.body.substring(0, response.body.indexOf(' - '));
 
@@ -119,8 +128,7 @@ class PolarityRequest {
 
           return reject(
             new ApiRequestError(
-              `Request Error: Or, check that the MXtoolbox URL is correct in the Polarity client user options.
-                `,
+              `Request Error: Or, check that the MXtoolbox URL is correct in the Polarity client user options.`,
               {
                 statusCode,
                 requestOptions
@@ -148,13 +156,14 @@ class PolarityRequest {
             )
           );
         }
+
         if (statusCode === HTTP_CODE_NOT_FOUND_404) {
           return resolve({ ...response, requestOptions });
         }
 
         if (statusCode === HTTP_CODE_API_LIMIT_REACHED_429) {
           return reject(
-            new ApiRequestError(``, {
+            new ApiRequestError(`API Limit Reached`, {
               statusCode,
               requestOptions
             })
@@ -168,8 +177,8 @@ class PolarityRequest {
           statusCode === HTTP_CODE_SERVER_LIMIT_504
         ) {
           return reject(
-            new NetworkError(
-              `Network Error: The server you are trying to connect to is unavailable`,
+            new ApiRequestError(
+              `API Error: The server you are trying to connect to is unavailable`,
               {
                 cause: err,
                 requestOptions
@@ -177,6 +186,14 @@ class PolarityRequest {
             )
           );
         }
+
+        // Catch All
+        return reject(
+          new AuthRequestError(`Unexpected API Error`, {
+            statusCode,
+            requestOptions
+          })
+        );
       });
     });
   }
