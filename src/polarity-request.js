@@ -111,29 +111,28 @@ class PolarityRequest {
           return resolve({ ...response, requestOptions });
         }
 
-        /*
-        The MXToolBox API will return a 400 if the API key has gone over the daily rate limit. 
-        example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
-        */
+        // The MXToolBox API will return a 400 if the API key has gone over the daily rate limit.
+        // example of message from API: Over Daily Simple API Limit - 64, ApiKey: *************. Documentation available at https://mxtoolbox.com/restapi.aspx
         if (statusCode === HTTP_CODE_BAD_REQUEST_400) {
           const message = response.body.substring(0, response.body.indexOf(' - '));
 
           if (message === 'Over Daily API Limit') {
             return reject(
               new ApiRequestError(
-                `Request Error: Check that your API key has not gone over the daily rate limit.`
+                `Request Error: Check that your API key has not gone over the daily rate limit.`,
+                {
+                  body: response.body
+                }
               )
             );
           }
 
           return reject(
-            new ApiRequestError(
-              `Request Error: Or, check that the MXtoolbox URL is correct in the Polarity client user options.`,
-              {
-                statusCode,
-                requestOptions
-              }
-            )
+            new ApiRequestError(`Unexpected HTTP Staus ${statusCode} Received.`, {
+              statusCode,
+              requestOptions,
+              body: response.body
+            })
           );
         }
 
@@ -143,7 +142,8 @@ class PolarityRequest {
               `Authorization Error: Check that your API key is valid.`,
               {
                 statusCode,
-                requestOptions
+                requestOptions,
+                body: response.body
               }
             )
           );
@@ -152,7 +152,10 @@ class PolarityRequest {
         if (statusCode === HTTP_CODE_TOKEN_MISSING_PERMISSIONS_OR_REVOKED_403) {
           return reject(
             new AuthRequestError(
-              `Token Error: Check that your API key is not expired and that you have the correct permissions.`
+              `Token Error: Check that your API key is not expired and that you have the correct permissions.`,
+              {
+                body: response.body
+              }
             )
           );
         }
@@ -165,7 +168,8 @@ class PolarityRequest {
           return reject(
             new ApiRequestError(`API Limit Reached`, {
               statusCode,
-              requestOptions
+              requestOptions,
+              body: response.body
             })
           );
         }
@@ -181,7 +185,8 @@ class PolarityRequest {
               `API Error: The server you are trying to connect to is unavailable`,
               {
                 cause: err,
-                requestOptions
+                requestOptions,
+                body: response.body
               }
             )
           );
@@ -191,7 +196,8 @@ class PolarityRequest {
         return reject(
           new AuthRequestError(`Unexpected API Error`, {
             statusCode,
-            requestOptions
+            requestOptions,
+            body: response.body
           })
         );
       });
