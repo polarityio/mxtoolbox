@@ -1,0 +1,46 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    {
+      "op": "copy",
+      "from": "blacklist.Failed[].info",
+      "to": "reduced_results.blacklist_failed_info"
+    },
+    {
+      "op": "copy",
+      "from": "blacklist.Warnings[].info",
+      "to": "reduced_results.blacklist_warnings_info"
+    },
+    {
+      "op": "copy",
+      "from": "blacklist.MxRep",
+      "to": "reduced_results.blacklist_mxrep"
+    },
+    {
+      "op": "copy",
+      "from": "https.Failed[].info",
+      "to": "reduced_results.https_failed_info"
+    },
+    {
+      "op": "compute",
+      "function": "add",
+      "inputs": [
+        {"path": "blacklist.Passed", "transform": "count", "default": 0},
+        {"path": "https.Passed", "transform": "count", "default": 0},
+        {"path": "http.Passed", "transform": "count", "default": 0}
+      ],
+      "output": "reduced_results.total_passed_count"
+    },
+    {
+      "op": "prune",
+      "strategy": "empty_values",
+      "target": "reduced_results"
+    }
+  ],
+  "output": {
+    "result": "$working.reduced_results"
+  }
+}

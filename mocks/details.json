@@ -1,0 +1,197 @@
+{
+  "entity": {
+    "value": "example.com",
+    "type": "domain"
+  },
+  "mx": {
+    "Command": "mx",
+    "Failed": [
+      {
+        "Title": "MX Record Check",
+        "Name": "MX Record",
+        "info": "No MX records found for example.com",
+        "Url": "https://mxtoolbox.com/Public/Content/EmailHelp/MXLookup.aspx",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Passed": [
+      {
+        "Title": "DNS Resolution",
+        "Name": "DNS",
+        "info": "DNS resolution successful",
+        "IsExcludedByUser": false
+      },
+      {
+        "Title": "Domain Exists",
+        "Name": "Domain",
+        "info": "Domain is registered and active",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Warnings": [],
+    "Information": [
+      {
+        "Title": "MX Lookup Info",
+        "info": "MX records determine mail routing for this domain"
+      }
+    ],
+    "ReportingNameServer": "8.8.8.8",
+    "TimeRecorded": "2024-01-15T10:30:45.123Z",
+    "UID": "mx-12345-abcde"
+  },
+  "blacklist": {
+    "Command": "blacklist",
+    "Failed": [
+      {
+        "Title": "Spamhaus ZEN",
+        "Name": "Spamhaus",
+        "info": "Listed in Spamhaus ZEN - Known spam source",
+        "Url": "https://www.spamhaus.org/zen/",
+        "IsExcludedByUser": false,
+        "PublicDescription": "The Spamhaus Project is an international nonprofit organization",
+        "PrivateDescription": "Internal tracking data"
+      },
+      {
+        "Title": "SURBL",
+        "Name": "SURBL",
+        "info": "Listed in SURBL - Domain used in spam messages",
+        "Url": "http://www.surbl.org/",
+        "IsExcludedByUser": false,
+        "PublicDescription": "SURBL tracks domains in spam",
+        "PrivateDescription": "Spam detection system"
+      }
+    ],
+    "Passed": [
+      {
+        "Title": "SpamCop",
+        "Name": "SpamCop",
+        "info": "Not listed in SpamCop",
+        "IsExcludedByUser": false
+      },
+      {
+        "Title": "Barracuda",
+        "Name": "Barracuda",
+        "info": "Not listed in Barracuda RBL",
+        "IsExcludedByUser": false
+      },
+      {
+        "Title": "SORBS",
+        "Name": "SORBS",
+        "info": "Not listed in SORBS",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Warnings": [
+      {
+        "Title": "URIBL",
+        "Name": "URIBL",
+        "info": "Recently delisted from URIBL - Monitor for recurrence",
+        "Url": "https://www.uribl.com/",
+        "IsExcludedByUser": false,
+        "PublicDescription": "Previously listed but now clear",
+        "PrivateDescription": "Watch list tracking"
+      }
+    ],
+    "Information": [],
+    "MxRep": {
+      "ScoreText": "Poor",
+      "Score": -65,
+      "ReasonText": "Domain has been listed in multiple blacklists",
+      "EmailsSent": 15420,
+      "EmailsReceived": 2341,
+      "SpamTraps": 5,
+      "IsAuthenticated": false,
+      "LastUpdated": "2024-01-15T08:15:30.000Z"
+    },
+    "ReportingNameServer": "8.8.8.8",
+    "TimeRecorded": "2024-01-15T10:30:46.789Z",
+    "UID": "blacklist-67890-fghij",
+    "MultiInformation": {
+      "Status": "Listed",
+      "CheckDate": "2024-01-15"
+    }
+  },
+  "http": {
+    "Command": "http",
+    "Failed": [
+      {
+        "Title": "HTTP Response Code",
+        "Name": "HTTP",
+        "info": "Server returned 503 Service Unavailable",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Passed": [
+      {
+        "Title": "Port 80 Open",
+        "Name": "Port",
+        "info": "HTTP port is accessible",
+        "IsExcludedByUser": false
+      },
+      {
+        "Title": "TCP Connection",
+        "Name": "TCP",
+        "info": "TCP handshake successful",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Warnings": [],
+    "Information": [
+      {
+        "Title": "HTTP Headers",
+        "info": "Server: nginx/1.18.0"
+      }
+    ],
+    "ReportingNameServer": "8.8.8.8",
+    "TimeRecorded": "2024-01-15T10:30:47.456Z",
+    "UID": "http-11223-klmno"
+  },
+  "https": {
+    "Command": "https",
+    "Failed": [
+      {
+        "Title": "SSL Certificate Validation",
+        "Name": "SSL Cert",
+        "info": "Certificate expired on 2024-01-01",
+        "Url": "https://mxtoolbox.com/Public/Content/SecurityHelp/SSLCertificate.aspx",
+        "IsExcludedByUser": false,
+        "PublicDescription": "SSL certificate validation failure",
+        "PrivateDescription": "Cert expired"
+      },
+      {
+        "Title": "TLS Version",
+        "Name": "TLS",
+        "info": "Server supports deprecated TLS 1.0",
+        "Url": "https://mxtoolbox.com/Public/Content/SecurityHelp/TLS.aspx",
+        "IsExcludedByUser": false,
+        "PublicDescription": "Outdated protocol version",
+        "PrivateDescription": "Security risk"
+      }
+    ],
+    "Passed": [
+      {
+        "Title": "Port 443 Open",
+        "Name": "Port",
+        "info": "HTTPS port is accessible",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Warnings": [
+      {
+        "Title": "Cipher Suite",
+        "Name": "Cipher",
+        "info": "Weak cipher suite detected: RC4-SHA",
+        "IsExcludedByUser": false
+      }
+    ],
+    "Information": [
+      {
+        "Title": "Certificate Issuer",
+        "info": "Let's Encrypt Authority X3"
+      }
+    ],
+    "ReportingNameServer": "8.8.8.8",
+    "TimeRecorded": "2024-01-15T10:30:48.234Z",
+    "UID": "https-44556-pqrst"
+  }
+}
